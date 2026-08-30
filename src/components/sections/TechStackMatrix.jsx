@@ -259,7 +259,7 @@ export default function TechStackMatrix() {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none sm:flex-wrap">
             {STACK_TABS.map((tab) => (
               <FilterTab
                 key={tab.id}

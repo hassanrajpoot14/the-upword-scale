@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import BookCallButton from "../booking/BookCallButton";
+import ThemeToggle from "../theme/ThemeToggle.jsx";
 import NavLinks from "./NavLinks";
 import BrandLogo from "../ui/BrandLogo";
 import { buttonBaseStyles, buttonVariantStyles } from "../ui/Button";
@@ -97,6 +98,13 @@ export default function MobileMenu() {
                 >
                   {SITE_CTAS.bookCall.label}
                 </BookCallButton>
+
+                <div className="flex items-center gap-3 sm:hidden">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                    Theme
+                  </span>
+                  <ThemeToggle />
+                </div>
               </div>
             </div>
           </>,

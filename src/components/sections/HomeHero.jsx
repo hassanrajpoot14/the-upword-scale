@@ -41,7 +41,7 @@ export default function HomeHero() {
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#F8FAF9] to-transparent" />
       </div>
 
-      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-start gap-6 px-4 pb-16 pt-24 sm:gap-10 sm:px-8 sm:pb-24 sm:pt-28 lg:min-h-[100svh] lg:grid-cols-2 lg:items-center lg:gap-12 lg:pb-28">
+      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-start gap-6 px-4 pb-16 pt-24 sm:gap-10 sm:px-6 sm:pb-24 sm:pt-28 lg:min-h-[100svh] lg:grid-cols-2 lg:items-center lg:gap-12 lg:pb-28">
         {/* Left — copy */}
         <motion.div
           variants={containerVariants}

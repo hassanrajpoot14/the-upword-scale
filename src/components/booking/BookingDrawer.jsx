@@ -30,10 +30,10 @@ function CalEmbedPanel({ onFailed }) {
   }, [onFailed]);
 
   return (
-    <div className="relative min-h-[620px]">
+    <div className="relative min-h-[min(620px,70vh)] sm:min-h-[620px]">
       <Cal
         calLink={calLink}
-        style={{ width: "100%", height: "100%", minHeight: "620px" }}
+        style={{ width: "100%", height: "100%", minHeight: "min(620px, 70vh)" }}
         config={{
           theme: "dark",
           layout: "month_view",

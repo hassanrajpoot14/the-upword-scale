@@ -18,7 +18,7 @@ export default function BlogPostView({ post, relatedPosts }) {
         }}
       />
 
-      <article className="mx-auto max-w-3xl px-4 pt-32 pb-24 sm:px-6 lg:px-8">
+      <article className="mx-auto max-w-3xl px-4 pt-24 pb-24 sm:px-6 sm:pt-32 lg:px-8">
         <Link
           href="/blogs"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 transition hover:text-emerald-600"

@@ -3,7 +3,7 @@ import PageShellSkeleton from "./PageShellSkeleton";
 /** Article route skeleton — reserves hero + body space. */
 export default function BlogPostSkeleton() {
   return (
-    <div className="mx-auto max-w-3xl px-4 pt-32 pb-24 sm:px-6 lg:px-8" aria-hidden>
+    <div className="mx-auto max-w-3xl px-4 pt-24 pb-24 sm:px-6 sm:pt-32 lg:px-8" aria-hidden>
       <div className="h-4 w-28 animate-pulse rounded bg-slate-200/70 dark:bg-slate-800" />
       <div className="mt-8 h-6 w-24 animate-pulse rounded-full bg-slate-200/70 dark:bg-slate-800" />
       <div className="mt-6 h-12 w-full animate-pulse rounded-2xl bg-slate-200/60 dark:bg-slate-800" />

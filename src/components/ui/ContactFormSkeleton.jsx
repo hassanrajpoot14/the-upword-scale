@@ -16,7 +16,7 @@ export default function ContactFormSkeleton() {
         ))}
       </div>
       <div className="mt-8 h-2 animate-pulse rounded-full bg-slate-100 dark:bg-slate-800" />
-      <div className="mt-8 grid grid-cols-2 gap-3">
+      <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="aspect-[4/3] animate-pulse rounded-2xl bg-slate-200/60 dark:bg-slate-800/80" />
         <div className="aspect-[4/3] animate-pulse rounded-2xl bg-slate-200/60 dark:bg-slate-800/80" />
         <div className="aspect-[4/3] animate-pulse rounded-2xl bg-slate-200/60 dark:bg-slate-800/80" />

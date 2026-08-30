@@ -67,7 +67,7 @@ export default function ServicesSection() {
         <div className="pointer-events-none absolute top-1/3 right-0 h-[380px] w-[380px] max-w-full rounded-full bg-teal-100/40 blur-[110px]" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal delay={0.1}>
           <div className="flex flex-col items-center text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-4 py-1.5 text-sm font-medium text-emerald-700">

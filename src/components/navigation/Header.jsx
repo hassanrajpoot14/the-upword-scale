@@ -54,7 +54,9 @@ export default function Header() {
 
           <div className="flex shrink-0 flex-nowrap items-center gap-1.5 sm:gap-3">
             <CommandPaletteTrigger onClick={() => setOpen(true)} />
-            <ThemeToggle />
+            <div className="hidden sm:block">
+              <ThemeToggle />
+            </div>
             <StatusBadge compact className="hidden lg:inline-flex" />
             <BookCallButton
               magnetic

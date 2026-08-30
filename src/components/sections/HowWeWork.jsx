@@ -212,7 +212,7 @@ export default function HowWeWork() {
     <section className="relative overflow-hidden py-24 sm:py-28">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-64 bg-gradient-to-b from-emerald-50/40 to-transparent" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-600">
             How we work

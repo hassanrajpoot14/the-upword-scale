@@ -104,7 +104,7 @@ export default function RoiCalculator() {
     <section className="relative overflow-hidden py-24 sm:py-28">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-72 bg-gradient-to-b from-emerald-50/50 to-transparent dark:from-emerald-950/20" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <LiveSystemStatus
             tone="light"
@@ -238,7 +238,7 @@ export default function RoiCalculator() {
                   href="/contact"
                   magnetic
                   loadingLabel="Opening planner…"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-7 py-3.5 text-sm font-bold text-slate-950 transition hover:bg-emerald-400"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-500 px-5 py-3.5 text-center text-sm font-bold text-slate-950 transition hover:bg-emerald-400 sm:w-auto sm:px-7"
                 >
                   Claim These Numbers for Your Project
                   <ArrowRight className="h-4 w-4" />

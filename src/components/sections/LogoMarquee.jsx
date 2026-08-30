@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const TECH_STACK = [
@@ -35,6 +36,22 @@ const TRUST_STATS = [
 ];
 
 function MarqueeTrack({ items, renderItem, duration = 20, reverse = false }) {
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    setReduceMotion(
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    );
+  }, []);
+
+  if (reduceMotion) {
+    return (
+      <div className="flex flex-wrap items-center justify-center gap-4 px-4 sm:gap-6">
+        {items.map((item, i) => renderItem(item, i))}
+      </div>
+    );
+  }
+
   const loop = [...items, ...items];
 
   return (
@@ -99,7 +116,7 @@ export default function LogoMarquee({
       className={`relative overflow-hidden border-y border-slate-200/70 bg-transparent py-10 sm:py-12 ${className}`}
       aria-label="Technology and partner logos"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-6 text-center">
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
             {label}

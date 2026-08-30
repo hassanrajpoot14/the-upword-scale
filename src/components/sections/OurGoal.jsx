@@ -61,7 +61,7 @@ export default function OurGoal() {
         }}
       />
 
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-8">
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-24">
 
           {/* ── Left: Typography-led mission statement ── */}

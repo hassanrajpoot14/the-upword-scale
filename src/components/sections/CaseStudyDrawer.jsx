@@ -192,7 +192,7 @@ export default function CaseStudyDrawer({ study, open, onClose }) {
                 <p className="mb-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">
                   Key results
                 </p>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {study.results.map((r) => (
                     <div
                       key={r.label}

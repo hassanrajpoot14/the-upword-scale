@@ -4,7 +4,7 @@ import { AspectSkeleton } from "./AspectSlot";
 export default function PageShellSkeleton({ withHero = true }) {
   return (
     <div
-      className="mx-auto min-h-screen w-full max-w-7xl px-4 pb-16 pt-28 sm:px-8"
+      className="mx-auto min-h-screen w-full max-w-7xl px-4 pb-16 pt-24 sm:px-6 sm:pt-28"
       aria-hidden
     >
       {withHero ? (

@@ -111,7 +111,7 @@ export default function CaseStudyDetailClient({ study, related }) {
         }}
       />
 
-      <main className="mx-auto max-w-5xl px-4 pb-28 pt-32 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-5xl px-4 pb-28 pt-24 sm:px-6 sm:pt-32 lg:px-8">
         <motion.div
           variants={container}
           initial="hidden"
