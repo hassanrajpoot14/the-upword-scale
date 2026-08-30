@@ -396,7 +396,7 @@ export default function BlogsPageClient() {
         <div className="absolute right-1/4 top-1/4 h-[400px] w-[400px] max-w-full rounded-full bg-teal-50/40 blur-[100px] dark:bg-teal-900/15" />
       </div>
 
-      <div className="relative mx-auto min-h-screen max-w-7xl px-4 pb-16 pt-28 sm:px-8">
+      <div className="relative mx-auto min-h-screen max-w-7xl px-4 pb-16 pt-24 sm:px-6 sm:pt-28">
         <div className="mx-auto max-w-3xl text-center">
           <LiveSystemStatus
             tone="light"
@@ -406,7 +406,7 @@ export default function BlogsPageClient() {
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-600">
             Tech publication
           </p>
-          <h1 className="heading-gradient mt-3 font-display text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="heading-gradient mt-3 font-display text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
             The Upward Scale Journal
           </h1>
           <p className="mt-4 text-base leading-relaxed text-slate-600 dark:text-slate-400 sm:text-lg">

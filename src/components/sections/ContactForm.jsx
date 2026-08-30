@@ -515,7 +515,7 @@ export default function ContactForm() {
               </AnimatePresence>
             </div>
 
-            <div className="mt-8 flex items-center justify-between gap-3">
+            <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
               <motion.button
                 type="button"
                 disabled={step === 1 || status === "submitting"}

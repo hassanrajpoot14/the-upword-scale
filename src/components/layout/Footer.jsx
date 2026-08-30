@@ -129,7 +129,7 @@ export default function Footer() {
               {SYSTEM_STATUS.map((item) => (
                 <li
                   key={item.label}
-                  className="flex items-center justify-between gap-3 text-sm"
+                  className="flex flex-col gap-1 text-sm sm:flex-row sm:items-center sm:justify-between sm:gap-3"
                 >
                   <span className="inline-flex items-center gap-2 text-slate-300">
                     <span

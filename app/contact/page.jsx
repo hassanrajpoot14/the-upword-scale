@@ -31,10 +31,10 @@ export default function ContactPage() {
         }}
       />
 
-      <div className="pointer-events-none absolute left-1/3 top-10 -z-10 h-[500px] w-[500px] rounded-full bg-emerald-100/30 blur-[130px]" />
-      <div className="pointer-events-none absolute right-1/4 top-1/4 -z-10 h-[400px] w-[400px] rounded-full bg-teal-50/40 blur-[110px]" />
+      <div className="pointer-events-none absolute left-1/3 top-10 -z-10 h-[500px] w-[500px] max-w-full rounded-full bg-emerald-100/30 blur-[130px]" />
+      <div className="pointer-events-none absolute right-1/4 top-1/4 -z-10 h-[400px] w-[400px] max-w-full rounded-full bg-teal-50/40 blur-[110px]" />
 
-      <div className="mx-auto max-w-7xl px-4 pt-32 pb-24 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pt-24 pb-24 sm:px-6 sm:pt-32 lg:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="flex flex-col justify-between lg:col-span-5">
             <div className="space-y-6">

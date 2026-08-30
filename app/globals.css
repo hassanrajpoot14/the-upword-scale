@@ -159,12 +159,13 @@ p {
   max-width: 80rem; /* max-w-7xl */
   margin-inline: auto;
   padding-inline: 1rem;
-  padding-block: 8rem 6rem;
+  padding-block: 5rem 3rem;
 }
 
 @media (min-width: 640px) {
   .page-shell {
-    padding-inline: 2rem;
+    padding-inline: 1.5rem;
+    padding-block: 8rem 6rem;
   }
 }
 

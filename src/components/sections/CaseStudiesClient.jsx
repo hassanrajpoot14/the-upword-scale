@@ -154,7 +154,7 @@ function CaseStudyCard({ study, onOpen }) {
 
 function SearchFilterBar({ query, onQuery, stack, onStack }) {
   return (
-    <div className="sticky top-20 z-30 rounded-2xl border border-slate-200/80 bg-white/90 p-3 shadow-lg shadow-slate-900/5 backdrop-blur-xl sm:p-4">
+    <div className="sticky top-16 z-30 rounded-2xl border border-slate-200/80 bg-white/90 p-3 shadow-lg shadow-slate-900/5 backdrop-blur-xl sm:top-20 sm:p-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <label className="relative min-w-0 flex-1">
           <span className="sr-only">Search case studies</span>
@@ -230,7 +230,7 @@ export default function CaseStudiesClient() {
         <div className="absolute right-1/4 top-1/3 h-[420px] w-[420px] max-w-full rounded-full bg-teal-100/25 blur-[120px]" />
       </div>
 
-      <div className="relative mx-auto min-h-screen max-w-7xl px-4 pb-16 pt-28 sm:px-6">
+      <div className="relative mx-auto min-h-screen max-w-7xl px-4 pb-16 pt-24 sm:px-6 sm:pt-28">
         <motion.div
           variants={heroVariants}
           initial="hidden"
@@ -249,7 +249,7 @@ export default function CaseStudiesClient() {
 
           <motion.h1
             variants={heroItem}
-            className="heading-gradient mt-6 max-w-3xl text-4xl font-extrabold leading-tight tracking-tight sm:text-6xl md:text-7xl"
+            className="heading-gradient mt-6 max-w-3xl text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
           >
             Results That Speak.
           </motion.h1>
@@ -269,7 +269,7 @@ export default function CaseStudiesClient() {
           <Reveal delay={0.15}>
           <motion.div
             variants={heroItem}
-            className="mt-12 grid grid-cols-3 gap-4 rounded-2xl border border-slate-200/80 bg-white/80 px-6 py-5 shadow-lg shadow-slate-900/5 backdrop-blur-xl sm:gap-10 sm:px-10 sm:py-6"
+            className="mt-12 grid grid-cols-1 gap-4 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-5 shadow-lg shadow-slate-900/5 backdrop-blur-xl sm:grid-cols-3 sm:gap-10 sm:px-10 sm:py-6"
           >
             {[
               { value: "40+", label: "Projects Delivered" },
@@ -283,7 +283,7 @@ export default function CaseStudiesClient() {
                 <span className="font-display text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
                   {stat.value}
                 </span>
-                <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 sm:text-xs">
+                <span className="text-[9px] font-semibold uppercase tracking-widest text-slate-400 sm:text-xs">
                   {stat.label}
                 </span>
               </div>

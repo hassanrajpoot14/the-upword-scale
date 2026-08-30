@@ -109,14 +109,14 @@ export default function ServicesPageClient() {
         <div className="absolute right-1/4 top-1/4 h-[400px] w-[400px] max-w-full rounded-full bg-teal-50/40 blur-[110px]" />
       </div>
 
-      <div className="relative mx-auto min-h-screen max-w-7xl px-4 pb-16 pt-28 sm:px-8">
+      <div className="relative mx-auto min-h-screen max-w-7xl px-4 pb-16 pt-24 sm:px-6 sm:pt-28">
         
         {/* 1. Hero Section */}
         <RevealOnScroll preset="fadeUp" threshold={0.1}>
           <section className="flex flex-col items-center text-center">
             <LiveSystemStatus tone="light" label="Precision capabilities · online" className="mb-1" />
 
-            <h1 className="heading-gradient mt-6 max-w-4xl text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
+            <h1 className="heading-gradient mt-6 max-w-4xl text-3xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
               Nine Core Disciplines.<br />
               One Growth Ecosystem.
             </h1>

@@ -82,10 +82,10 @@ export default function DynamicServiceTitle({
       <span aria-hidden className="block min-h-[1.15em] sm:hidden" />
 
       <span
-        className="absolute left-0 top-0 w-full max-w-full whitespace-nowrap sm:w-auto"
+        className="absolute left-0 top-0 w-full max-w-full truncate sm:w-auto sm:whitespace-nowrap"
         aria-hidden={false}
       >
-        <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 bg-clip-text text-transparent break-words sm:whitespace-nowrap">
           {currentWord}
         </span>
         <span

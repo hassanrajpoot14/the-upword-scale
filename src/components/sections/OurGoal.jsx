@@ -77,13 +77,13 @@ export default function OurGoal() {
             {/* Large display headline — the typographic centrepiece */}
             <h2
               id="our-goal-heading"
-              className="heading-gradient-dark text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl xl:text-6xl"
+              className="heading-gradient-dark text-3xl font-extrabold leading-snug tracking-tight sm:text-5xl xl:text-6xl"
             >
               To make every brand we touch a category leader.
             </h2>
 
             {/* Body paragraphs — readable at large size */}
-            <div className="space-y-4 text-lg leading-relaxed text-slate-400">
+            <div className="space-y-4 text-base leading-relaxed text-slate-400 sm:text-lg">
               <p>
                 The digital landscape rewards speed, precision, and compounding execution. Most
                 agencies settle for deliverables. We obsess over{" "}
@@ -111,7 +111,7 @@ export default function OurGoal() {
           <RevealOnScroll preset="fadeRight" delay={0.15} threshold={0.15}>
             {/* Glass card */}
             <div
-              className="relative overflow-hidden rounded-3xl border border-white/10 p-8 shadow-2xl sm:p-10"
+              className="relative overflow-hidden rounded-3xl border border-white/10 p-6 shadow-2xl sm:p-10"
               style={{
                 background:
                   "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)",
@@ -150,7 +150,7 @@ export default function OurGoal() {
 
                 {/* Stats trio */}
                 <Reveal delay={0.2}>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                   {MISSION_STATS.map((s) => (
                     <div key={s.label} className="flex flex-col items-center gap-1 text-center">
                       <span className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">

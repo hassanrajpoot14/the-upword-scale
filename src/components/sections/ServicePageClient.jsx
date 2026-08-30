@@ -38,10 +38,10 @@ export default function ServicePageClient({ service }) {
       />
 
       {/* Decorative Blur Orbs */}
-      <div className="pointer-events-none absolute left-1/4 top-0 -z-10 h-[500px] w-[500px] rounded-full bg-emerald-100/30 blur-[120px]" />
-      <div className="pointer-events-none absolute right-1/4 top-1/3 -z-10 h-[400px] w-[400px] rounded-full bg-teal-50/40 blur-[100px]" />
+      <div className="pointer-events-none absolute left-1/4 top-0 -z-10 h-[500px] w-[500px] max-w-full rounded-full bg-emerald-100/30 blur-[120px]" />
+      <div className="pointer-events-none absolute right-1/4 top-1/3 -z-10 h-[400px] w-[400px] max-w-full rounded-full bg-teal-50/40 blur-[100px]" />
 
-      <main className="mx-auto max-w-7xl px-4 pt-32 pb-24 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 pt-24 pb-24 sm:px-6 sm:pt-32 lg:px-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"

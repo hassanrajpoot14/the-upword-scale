@@ -28,7 +28,7 @@ export default function AboutPageClient() {
         size="md"
       />
 
-      <main className="mx-auto max-w-7xl px-4 pb-24 pt-28 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 pb-24 pt-24 sm:px-6 sm:pt-28 lg:px-8">
         {/* ── Hero: founder profile + studio intro ── */}
         <Reveal delay={0.1}>
         <section className="grid grid-cols-1 items-center gap-12 py-12 lg:grid-cols-12 lg:gap-12 lg:py-20">
