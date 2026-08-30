@@ -42,7 +42,7 @@ export default function ContactPage() {
                 Project Planner
               </div>
 
-              <h1 className="heading-gradient text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              <h1 className="heading-gradient text-3xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
                 Scope your next launch
               </h1>
 

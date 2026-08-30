@@ -113,9 +113,9 @@ function PostGraphic({ post, className = "" }) {
 
 function CategoryFilters({ active, onChange }) {
   return (
-    <div className="sticky top-20 z-30 -mx-4 border-y border-slate-200/70 bg-[#F8FAFC]/85 px-4 py-3 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80 sm:mx-0 sm:rounded-2xl sm:border sm:px-3">
+    <div className="sticky top-16 z-30 -mx-4 border-y border-slate-200/70 bg-[#F8FAFC]/85 px-4 py-3 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80 sm:top-20 sm:mx-0 sm:rounded-2xl sm:border sm:px-3">
       <div
-        className="flex flex-wrap items-center gap-2"
+        className="flex items-center gap-2 overflow-x-auto scrollbar-none sm:flex-wrap"
         role="group"
         aria-label="Filter articles by category"
       >
@@ -127,7 +127,7 @@ function CategoryFilters({ active, onChange }) {
               type="button"
               aria-pressed={isActive}
               onClick={() => onChange(category)}
-              className={`relative inline-flex items-center rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
+              className={`relative inline-flex shrink-0 items-center rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
                 isActive
                   ? "text-white"
                   : "border border-slate-200/80 bg-white/80 text-slate-600 hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-400 dark:hover:text-slate-100"
