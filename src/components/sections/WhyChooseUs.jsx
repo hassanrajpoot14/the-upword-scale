@@ -8,8 +8,10 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import RevealOnScroll, { StaggerReveal } from "../ui/RevealOnScroll";
+import GlowIcon from "../ui/GlowIcon";
+import Magnetic from "../ui/Magnetic";
+import SpotlightCard from "../visuals/SpotlightCard";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const DIFFERENTIATORS = [
@@ -90,7 +92,7 @@ const ACCENT_STYLES = {
 export default function WhyChooseUs() {
   return (
     <section
-      className="relative overflow-hidden bg-white py-24 sm:py-32"
+      className="relative overflow-hidden bg-transparent py-24 sm:py-32"
       aria-labelledby="why-choose-heading"
     >
       {/* Faint dot-grid texture */}
@@ -103,9 +105,11 @@ export default function WhyChooseUs() {
       />
 
       {/* Top green gradient fade from hero */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-64 w-[900px] -translate-x-1/2 rounded-full bg-emerald-50/60 blur-3xl" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 overflow-hidden">
+        <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-full max-w-3xl -translate-x-1/2 rounded-full bg-emerald-50/60 blur-3xl sm:max-w-4xl" />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-8">
         {/* Section header */}
         <RevealOnScroll preset="fadeUp" threshold={0.15}>
           <div className="mx-auto max-w-2xl text-center">
@@ -114,12 +118,9 @@ export default function WhyChooseUs() {
             </span>
             <h2
               id="why-choose-heading"
-              className="mt-6 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl"
+              className="heading-gradient mt-6 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl"
             >
-              Built Different.{" "}
-              <span className="bg-gradient-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent">
-                Proven at Scale.
-              </span>
+              Built Different. Proven at Scale.
             </h2>
             <p className="mt-5 text-base leading-relaxed text-slate-500 sm:text-lg">
               We don&rsquo;t just build — we engineer. Every decision, every line of code, every
@@ -139,26 +140,22 @@ export default function WhyChooseUs() {
             return (
               <RevealOnScroll
                 key={d.id}
-                preset="fadeUp"
+                staggerChild
                 as="article"
                 className="h-full"
               >
-                <motion.div
-                  whileHover={{ y: -8, scale: 1.015 }}
-                  transition={{ duration: 0.28, ease: "easeOut" }}
-                  className={`group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white p-7 shadow-sm transition-all duration-300 ${styles.border} hover:shadow-2xl ${styles.glow}`}
+                <SpotlightCard
+                  className={`flex h-full flex-col rounded-3xl border-slate-200/80 bg-white/90 p-7 card-glass ${styles.border} hover:shadow-2xl ${styles.glow}`}
                 >
                   {/* Colour accent bar along the top */}
                   <div
-                    className={`absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r ${styles.bar} translate-y-[-3px] transition-transform duration-300 group-hover:translate-y-0`}
+                    className={`absolute inset-x-0 top-0 z-10 h-[3px] bg-gradient-to-r ${styles.bar} translate-y-[-3px] transition-transform duration-300 group-hover:translate-y-0`}
                   />
 
                   {/* Icon */}
-                  <div
-                    className={`flex h-11 w-11 items-center justify-center rounded-2xl ${styles.iconBg} transition-transform duration-300 group-hover:scale-110`}
-                  >
-                    <Icon className={`h-5 w-5 ${styles.iconText}`} strokeWidth={2} />
-                  </div>
+                  <GlowIcon className="transition-transform duration-300 group-hover:scale-110">
+                    <Icon className="h-5 w-5" strokeWidth={2} />
+                  </GlowIcon>
 
                   {/* Title */}
                   <h3 className="mt-5 text-base font-bold leading-snug text-slate-900 sm:text-lg">
@@ -178,14 +175,14 @@ export default function WhyChooseUs() {
                         {d.statLabel}
                       </span>
                     </div>
-                    {/* Hover arrow */}
-                    <div
-                      className={`flex h-8 w-8 items-center justify-center rounded-full ${styles.iconBg} opacity-0 transition-all duration-300 group-hover:opacity-100`}
+                    <GlowIcon
+                      size="sm"
+                      className="opacity-0 transition-all duration-300 group-hover:opacity-100"
                     >
-                      <ArrowUpRight className={`h-4 w-4 ${styles.iconText}`} />
-                    </div>
+                      <ArrowUpRight className="h-4 w-4" />
+                    </GlowIcon>
                   </div>
-                </motion.div>
+                </SpotlightCard>
               </RevealOnScroll>
             );
           })}
@@ -194,13 +191,17 @@ export default function WhyChooseUs() {
         {/* Bottom CTA row */}
         <RevealOnScroll preset="fadeUp" delay={0.2}>
           <div className="mt-14 flex justify-center">
-            <Link
-              href="/case-studies"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300 hover:text-emerald-700 hover:shadow-md"
-            >
-              See the results in our Case Studies
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
+            <Magnetic strength={0.22}>
+              <Link
+                href="/case-studies"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-emerald-300 hover:text-emerald-700 hover:shadow-md"
+              >
+                View All Work
+                <GlowIcon size="sm">
+                  <ArrowUpRight className="h-4 w-4" />
+                </GlowIcon>
+              </Link>
+            </Magnetic>
           </div>
         </RevealOnScroll>
       </div>

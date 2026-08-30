@@ -1,56 +1,99 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
-
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
 
 /* ─────────────────────────────────────────────────────────────────────────────
-  GOOGLE FONTS — Inter (headings + UI) & DM Sans (body)
-  Inter: geometric, tight, premium. DM Sans: clean, readable at body size.
+  FONTS via next/font — Plus Jakarta Sans (display) & Inter (body)
+  CSS variables --font-plus-jakarta / --font-inter injected on <html>.
 ───────────────────────────────────────────────────────────────────────────── */
 
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
 /* ─────────────────────────────────────────────────────────────────────────────
-   DESIGN TOKENS — Palette & Typography
-   
-   Palette rationale:
-   • Slate 50–950  → neutral surface, text, borders  (bg, cards, dividers)
-   • Emerald 400–600 → primary brand accent           (CTAs, highlights)
-   • Teal 400–500  → secondary accent pair            (gradients, tags)
-   • Off-White #F8FAF9 → hero/section bg softer than pure white
-   • Dark #0B1120  → deep navy-black for dark sections (richer than slate-950)
+   DESIGN TOKENS — Palette & Typography (light SaaS foundation)
+   Palette unchanged: slate neutrals + emerald/teal accents.
 ───────────────────────────────────────────────────────────────────────────── */
 :root {
   /* Surfaces */
-  --color-bg:          #F8FAF9;   /* off-white — body background */
-  --color-surface:     #FFFFFF;   /* card / panel surfaces */
-  --color-surface-2:   #F1F5F4;   /* secondary surface (inputs, chips) */
-  --color-dark-bg:     #0B1120;   /* deep navy-black for mission section */
+  --color-bg:          #F8FAFC;   /* slate-50 — light SaaS canvas */
+  --color-surface:     #FFFFFF;
+  --color-surface-2:   #F1F5F9;
+  --color-dark-bg:     #0B1120;
 
   /* Brand palette */
-  --color-accent:      #10b981;   /* emerald-500 */
-  --color-accent-dark: #059669;   /* emerald-600 */
-  --color-accent-light:#34d399;   /* emerald-400 */
-  --color-secondary:   #14b8a6;   /* teal-500 */
+  --color-accent:      #10b981;
+  --color-accent-dark: #059669;
+  --color-accent-light:#34d399;
+  --color-secondary:   #14b8a6;
 
   /* Text */
-  --color-text-primary:   #0f172a; /* slate-900 */
-  --color-text-secondary: #475569; /* slate-600 */
-  --color-text-muted:     #94a3b8; /* slate-400 */
-  --color-text-inverse:   #f8fafc; /* slate-50 */
+  --color-text-primary:   #0f172a; /* slate-900 — headings */
+  --color-text-secondary: #475569; /* slate-600 — body */
+  --color-text-muted:     #94a3b8;
+  --color-text-inverse:   #f8fafc;
 
   /* Borders */
-  --color-border:      #e2e8f0;   /* slate-200 */
-  --color-border-soft: #f1f5f9;   /* slate-100 */
+  --color-border:      #e2e8f0;
+  --color-border-soft: #f1f5f9;
 
-  /* Typography scale */
-  --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-body:    'DM Sans', system-ui, -apple-system, sans-serif;
+  /* Typography — Plus Jakarta Sans display, Inter body */
+  --font-heading: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif;
+  --font-body:    var(--font-inter), system-ui, -apple-system, sans-serif;
 
-  /* Shadow tokens */
-  --shadow-card: 0 1px 3px 0 rgba(15,23,42,0.06), 0 1px 2px -1px rgba(15,23,42,0.04);
-  --shadow-card-hover: 0 10px 40px -8px rgba(15,23,42,0.12), 0 4px 16px -4px rgba(16,185,129,0.08);
-  --shadow-elevated: 0 20px 60px -12px rgba(15,23,42,0.18);
+  /* Glass elevation */
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 12px 30px -5px rgba(0, 0, 0, 0.1);
+  --shadow-elevated: 0 20px 60px -12px rgba(15, 23, 42, 0.18);
 
-  /* Easing */
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.dark {
+  --color-bg:          #0B1120;
+  --color-surface:     #111827;
+  --color-surface-2:   #1e293b;
+  --color-text-primary:   #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted:     #64748b;
+  --color-border:      #1e293b;
+  --color-border-soft: #334155;
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.35);
+  --shadow-card-hover: 0 12px 30px -5px rgba(0, 0, 0, 0.45);
+}
+
+html.dark body {
+  background-color: rgb(11 17 32 / 0.92);
+  background-image: radial-gradient(#1e293b 1px, transparent 1px);
+  color: var(--color-text-secondary);
+}
+
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6 {
+  color: var(--color-text-primary);
+}
+
+html.dark .card-glass,
+html.dark .card-premium {
+  background-color: rgb(17 24 39 / 0.75);
+  border-color: rgb(51 65 85 / 0.8);
+}
+
+html.dark .heading-gradient {
+  background-image: linear-gradient(to right, #f8fafc, #6ee7b7, #10b981);
+}
+
+html.dark ::selection {
+  background-color: rgba(16, 185, 129, 0.28);
+  color: #ecfdf5;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -67,41 +110,126 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
+/* Micro-grid light canvas (Raycast / Stripe style) */
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
+  background-color: rgb(248 250 252 / 0.5);
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  background-size: 16px 16px;
+  color: var(--color-text-secondary);
   font-family: var(--font-body);
   font-size: 1rem;
-  line-height: 1.7;
+  line-height: 1.625;
   letter-spacing: 0.01em;
+  overflow-x: hidden;
+  transition:
+    background-color 0.3s var(--ease-premium),
+    color 0.3s var(--ease-premium);
 }
 
-/* Headings always use Inter */
+html.light body {
+  background-color: rgb(248 250 252 / 0.5);
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  color: var(--color-text-secondary);
+}
+
+/* Display headings — Plus Jakarta Sans, extrabold, tight tracking */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   line-height: 1.1;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
   font-weight: 800;
   color: var(--color-text-primary);
 }
 
+p {
+  line-height: 1.625;
+}
+
+.font-display {
+  font-family: var(--font-heading);
+  letter-spacing: -0.03em;
+}
+
+/* Consistent content shell spacing */
+.page-shell {
+  width: 100%;
+  max-width: 80rem; /* max-w-7xl */
+  margin-inline: auto;
+  padding-inline: 1rem;
+  padding-block: 8rem 6rem;
+}
+
+@media (min-width: 640px) {
+  .page-shell {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-shell {
+    padding-inline: 2rem;
+  }
+}
+
+/* Hide scrollbars inside micro-UI scaling shells on mobile */
+@utility scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Section title gradient masks */
+.heading-gradient {
+  background-image: linear-gradient(to right, #0f172a, #6ee7b7, #10b981);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.heading-gradient-dark {
+  background-image: linear-gradient(to right, #ffffff, #a7f3d0, #10b981);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 /* ─────────────────────────────────────────────────────────────────────────────
-   GLOBAL CARD SHADOW UTILITY
-   Applied to any element with class .card-premium
+   LIGHT-MODE GLASS CARDS (Stripe / Raycast elevation)
 ───────────────────────────────────────────────────────────────────────────── */
+.card-glass,
 .card-premium {
+  background-color: rgb(255 255 255 / 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgb(226 232 240 / 0.8);
   box-shadow: var(--shadow-card);
   transition:
     box-shadow 0.3s var(--ease-premium),
     transform 0.3s var(--ease-premium),
-    border-color 0.3s var(--ease-premium);
+    border-color 0.3s var(--ease-premium),
+    background-color 0.3s var(--ease-premium);
 }
 
+.card-glass:hover,
 .card-premium:hover {
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-4px);
+}
+
+/* Soft light micro-grid section helper */
+.bg-micro-grid {
+  background-color: rgb(248 250 252 / 0.5);
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Map Tailwind tracking-tight → Stripe-style -0.03em for display hierarchy */
+@utility tracking-tight {
+  letter-spacing: -0.03em;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -139,12 +267,13 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-body);
   font-size: 1.125rem;
   line-height: 1.8;
-  color: #334155;
+  color: #475569;
 }
 
 .blog-content p {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
+  line-height: 1.625;
 }
 
 .blog-content h2 {
@@ -154,7 +283,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #0f172a;
   margin-top: 2.5rem;
   margin-bottom: 1.25rem;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
   line-height: 1.25;
 }
 
@@ -165,6 +294,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #0f172a;
   margin-top: 2rem;
   margin-bottom: 1rem;
+  letter-spacing: -0.03em;
   line-height: 1.35;
 }
 
@@ -224,4 +354,59 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0;
   border-radius: 0;
   font-size: inherit;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ROI CALCULATOR — custom range sliders
+───────────────────────────────────────────────────────────────────────────── */
+.roi-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    #10b981 0%,
+    #10b981 var(--fill, 50%),
+    #e2e8f0 var(--fill, 50%),
+    #e2e8f0 100%
+  );
+  outline: none;
+}
+
+html.dark .roi-range {
+  background: linear-gradient(
+    to right,
+    #10b981 0%,
+    #10b981 var(--fill, 50%),
+    #334155 var(--fill, 50%),
+    #334155 100%
+  );
+}
+
+.roi-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #0f172a;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.roi-range::-webkit-slider-thumb:hover {
+  transform: scale(1.08);
+}
+
+.roi-range::-moz-range-thumb {
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #0f172a;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
+  cursor: pointer;
 }

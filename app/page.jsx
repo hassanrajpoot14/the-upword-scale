@@ -1,28 +1,26 @@
-import ServicesSection from "../src/components/sections/ServicesSection";
-import WhyChooseUs from "../src/components/sections/WhyChooseUs";
-import OurGoal from "../src/components/sections/OurGoal";
-import HomeHero from "../src/components/sections/HomeHero";
+import dynamic from "next/dynamic";
+import { buildPageMetadata } from "../src/lib/og/metadata";
 
-export const metadata = {
+const HomePageClient = dynamic(
+  () => import("../src/components/sections/HomePageClient"),
+  {
+    loading: () => (
+      <div className="min-h-screen bg-[#07110f]" aria-hidden>
+        <div className="mx-auto flex min-h-[100svh] max-w-7xl items-center px-4">
+          <div className="h-12 w-72 animate-pulse rounded-xl bg-white/10" />
+        </div>
+      </div>
+    ),
+  }
+);
+
+export const metadata = buildPageMetadata({
   title: "The Upward Scale | Elite Digital Growth Systems",
   description:
     "We engineer high-performance architectures, elite marketing software, and premium user interfaces that turn ambitious brands into category leaders.",
-};
+  path: "/",
+});
 
 export default function HomePage() {
-  return (
-    <>
-      {/* Hero Section */}
-      <HomeHero />
-
-      {/* Why Choose Us — differentiator cards */}
-      <WhyChooseUs />
-
-      {/* Our Goal — Mission Statement */}
-      <OurGoal />
-
-      {/* The Solutions Hub / Services Section */}
-      <ServicesSection />
-    </>
-  );
+  return <HomePageClient />;
 }

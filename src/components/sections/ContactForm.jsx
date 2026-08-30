@@ -1,70 +1,216 @@
 "use client";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  Code2,
+  Gauge,
+  LayoutTemplate,
+  Cloud,
+  PartyPopper,
+  Loader2,
+} from "lucide-react";
 import { CONTACT_INFO } from "../../data/contactInfo";
+import Magnetic from "../ui/Magnetic";
+import { SPRING } from "../motion/springs";
 
-// Zod validation schema
-const contactFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters long." })
-    .max(50, { message: "Name cannot exceed 50 characters." }),
-  email: z
-    .string()
-    .min(1, { message: "Email is required." })
-    .email({ message: "Please enter a valid email address." }),
-  serviceType: z.enum([
-    "web-development",
-    "ai-optimization",
-    "social-media-marketing",
-    "gmb-optimization",
-    "seo",
-    "app-development",
-    "content-marketing",
-    "devops-cloud",
-    "brand-strategy",
-    "general",
-  ], {
-    message: "Please select a valid service option.",
-  }),
-  message: z
-    .string()
-    .min(10, { message: "Message must be at least 10 characters long." })
-    .max(1000, { message: "Message cannot exceed 1000 characters." }),
-});
+const SERVICES = [
+  {
+    id: "web-app",
+    title: "Web App",
+    desc: "Product UI, dashboards, and high-performance Next.js builds.",
+    icon: Code2,
+  },
+  {
+    id: "full-redesign",
+    title: "Full Redesign",
+    desc: "Brand, UX, and frontend overhaul for a premium relaunch.",
+    icon: LayoutTemplate,
+  },
+  {
+    id: "performance-audit",
+    title: "Performance Audit",
+    desc: "Lighthouse, Core Web Vitals, and conversion leak analysis.",
+    icon: Gauge,
+  },
+  {
+    id: "devops-pipeline",
+    title: "DevOps / Pipeline",
+    desc: "CI/CD, Docker, edge deploys, and zero-downtime shipping.",
+    icon: Cloud,
+  },
+];
+
+const BUDGETS = [
+  {
+    id: "1-3k",
+    label: "$1k – $3k",
+    hint: "Focused sprint or audit",
+    range: [1000, 3000],
+  },
+  {
+    id: "3-5k",
+    label: "$3k – $5k",
+    hint: "Full feature build",
+    range: [3000, 5000],
+  },
+  {
+    id: "5k-plus",
+    label: "$5k+",
+    hint: "Multi-phase scale system",
+    range: [5000, 12000],
+  },
+];
+
+const STEP_LABELS = ["Services", "Budget", "Details"];
+
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function ProgressRail({ step }) {
+  return (
+    <div className="mb-8">
+      <div className="mb-3 flex items-center justify-between gap-2">
+        {STEP_LABELS.map((label, i) => {
+          const n = i + 1;
+          const active = n === step;
+          const done = n < step;
+          return (
+            <div key={label} className="flex min-w-0 flex-1 flex-col items-center gap-2">
+              <div
+                className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-colors ${
+                  done
+                    ? "bg-emerald-500 text-white"
+                    : active
+                      ? "bg-slate-900 text-white"
+                      : "border border-slate-200 bg-white text-slate-400"
+                }`}
+              >
+                {done ? <Check className="h-4 w-4" /> : n}
+              </div>
+              <span
+                className={`truncate text-[10px] font-semibold uppercase tracking-wider ${
+                  active || done ? "text-slate-800" : "text-slate-400"
+                }`}
+              >
+                {label}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+      <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+        <motion.div
+          className="h-full rounded-full bg-emerald-500"
+          animate={{ width: `${(step / 3) * 100}%` }}
+          transition={SPRING.snappy}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ConfettiBurst() {
+  const pieces = useMemo(
+    () =>
+      Array.from({ length: 28 }, (_, i) => ({
+        id: i,
+        x: (i % 7) * 14 - 42,
+        delay: (i % 8) * 0.04,
+        rotate: (i * 37) % 360,
+        color:
+          i % 3 === 0
+            ? "bg-emerald-400"
+            : i % 3 === 1
+              ? "bg-teal-400"
+              : "bg-slate-800",
+      })),
+    []
+  );
+
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      {pieces.map((p) => (
+        <motion.span
+          key={p.id}
+          className={`absolute left-1/2 top-1/3 h-2 w-2 rounded-sm ${p.color}`}
+          initial={{ opacity: 1, y: 0, x: 0, scale: 1, rotate: 0 }}
+          animate={{
+            opacity: [1, 1, 0],
+            y: [0, -40 - (p.id % 5) * 18, 90 + (p.id % 4) * 20],
+            x: [0, p.x, p.x * 1.4],
+            rotate: [0, p.rotate, p.rotate + 120],
+            scale: [1, 1.1, 0.7],
+          }}
+          transition={{ duration: 1.4, delay: p.delay, ease: "easeOut" }}
+        />
+      ))}
+    </div>
+  );
+}
+
+const slideVariants = {
+  enter: (dir) => ({ x: dir > 0 ? 48 : -48, opacity: 0 }),
+  center: { x: 0, opacity: 1 },
+  exit: (dir) => ({ x: dir > 0 ? -48 : 48, opacity: 0 }),
+};
 
 export default function ContactForm() {
-  const [submissionStatus, setSubmissionStatus] = useState("idle");
+  const [step, setStep] = useState(1);
+  const [direction, setDirection] = useState(1);
+  const [serviceId, setServiceId] = useState(null);
+  const [budgetId, setBudgetId] = useState(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [details, setDetails] = useState("");
+  const [touched, setTouched] = useState({});
+  const [status, setStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      serviceType: "web-development",
-      message: "",
-    },
-  });
+  const nameOk = name.trim().length >= 2;
+  const emailOk = isValidEmail(email.trim());
+  const detailsOk = details.trim().length >= 10;
 
-  const onSubmit = async (data) => {
-    setSubmissionStatus("submitting");
+  const goTo = (next) => {
+    setDirection(next > step ? 1 : -1);
+    setStep(next);
+  };
+
+  const canContinue =
+    (step === 1 && Boolean(serviceId)) ||
+    (step === 2 && Boolean(budgetId)) ||
+    (step === 3 && nameOk && emailOk && detailsOk);
+
+  const resetPlanner = () => {
+    setStep(1);
+    setDirection(1);
+    setServiceId(null);
+    setBudgetId(null);
+    setName("");
+    setEmail("");
+    setDetails("");
+    setTouched({});
+    setStatus("idle");
+    setErrorMessage("");
+  };
+
+  const onSubmit = async () => {
+    setTouched({ name: true, email: true, details: true });
+    if (!nameOk || !emailOk || !detailsOk || !serviceId || !budgetId) return;
+
+    setStatus("submitting");
     setErrorMessage("");
 
-    // Web3Forms — set NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY in .env.local
     const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+    const service = SERVICES.find((s) => s.id === serviceId);
+    const budget = BUDGETS.find((b) => b.id === budgetId);
 
     if (!accessKey) {
-      setSubmissionStatus("error");
+      setStatus("error");
       setErrorMessage(
         `Form is not configured yet. Please email us at ${CONTACT_INFO.email}.`
       );
@@ -80,236 +226,345 @@ export default function ContactForm() {
         },
         body: JSON.stringify({
           access_key: accessKey,
-          subject: `New Lead: ${data.name} - ${data.serviceType}`,
+          subject: `Project Planner: ${name} — ${service?.title} (${budget?.label})`,
           from_name: "The Upward Scale Website",
-          name: data.name,
-          email: data.email,
-          service: data.serviceType,
-          message: data.message,
+          name,
+          email,
+          service: service?.title,
+          budget: budget?.label,
+          message: details,
         }),
       });
 
       const result = await response.json();
-
       if (response.status === 200 || result.success) {
-        setSubmissionStatus("success");
-        reset();
+        setStatus("success");
       } else {
-        setSubmissionStatus("error");
-        setErrorMessage(result.message || "An error occurred while submitting your message.");
+        setStatus("error");
+        setErrorMessage(
+          result.message || "An error occurred while submitting your request."
+        );
       }
     } catch (err) {
       console.error(err);
-      setSubmissionStatus("error");
-      setErrorMessage("Unable to connect to the server. Please check your network and try again.");
+      setStatus("error");
+      setErrorMessage(
+        "Unable to connect to the server. Please check your network and try again."
+      );
     }
   };
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-slate-100 bg-white/90 p-8 shadow-xl backdrop-blur-md sm:p-10">
-      {/* Decorative gradient accents inside the form card */}
-      <div className="pointer-events-none absolute -right-16 -top-16 h-32 w-32 rounded-full bg-emerald-100/50 blur-2xl" />
-      <div className="pointer-events-none absolute -bottom-16 -left-16 h-32 w-32 rounded-full bg-teal-100/40 blur-2xl" />
+    <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-lg shadow-slate-900/5 backdrop-blur-xl sm:p-8 lg:p-10">
+      <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-emerald-100/50 blur-2xl" />
+      <div className="pointer-events-none absolute -bottom-16 -left-16 h-36 w-36 rounded-full bg-teal-100/40 blur-2xl" />
 
       <AnimatePresence mode="wait">
-        {submissionStatus === "success" ? (
+        {status === "success" ? (
           <motion.div
             key="success"
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="flex flex-col items-center py-12 text-center"
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={SPRING.reveal}
+            className="relative flex flex-col items-center py-10 text-center sm:py-14"
           >
-            {/* Animated Success Circle Icon */}
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-              <svg
-                className="h-8 w-8 animate-bounce"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
+            <ConfettiBurst />
+            <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-600 shadow-[0_0_24px_rgba(16,185,129,0.25)]">
+              <PartyPopper className="h-7 w-7" />
             </div>
-
-            <h3 className="mt-6 text-2xl font-bold tracking-tight text-slate-900">
-              Message Sent Successfully!
+            <h3 className="relative z-10 mt-6 font-display text-2xl font-extrabold tracking-tight text-slate-900">
+              Scope received — we&apos;re on it
             </h3>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-slate-600 sm:text-base">
-              Thank you for reaching out. Our growth architects will analyze your request and get in touch within 24 hours.
+            <p className="relative z-10 mt-3 max-w-sm text-sm leading-relaxed text-slate-600">
+              Thanks for walking through the planner. Our architects will review
+              your scope and reply within 24 hours with a tailored roadmap.
             </p>
-
             <button
-              onClick={() => setSubmissionStatus("idle")}
-              className="mt-8 rounded-full border border-slate-200 bg-slate-50 px-6 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+              type="button"
+              onClick={resetPlanner}
+              className="relative z-10 mt-8 rounded-full border border-slate-200 bg-white px-6 py-2.5 text-sm font-semibold text-slate-900 transition hover:border-emerald-300 hover:text-emerald-700"
             >
-              Send another message
+              Plan another project
             </button>
           </motion.div>
         ) : (
-          <motion.form
-            key="form"
-            onSubmit={handleSubmit(onSubmit)}
+          <motion.div
+            key="planner"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="space-y-6"
+            className="relative z-10"
           >
-            {/* General Submission Error Alert */}
-            {submissionStatus === "error" && (
-              <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-700">
-                <div className="flex gap-2">
-                  <svg className="h-5 w-5 shrink-0 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                  </svg>
-                  <span>{errorMessage}</span>
-                </div>
+            <div className="mb-2 flex items-start justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-600">
+                  Project planner
+                </p>
+                <h2 className="mt-1 font-display text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
+                  Scope your next build
+                </h2>
               </div>
-            )}
-
-            {/* Name Input */}
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="name" className="text-sm font-semibold text-slate-900">
-                Full Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                disabled={submissionStatus === "submitting"}
-                placeholder="John Doe"
-                className={`w-full rounded-xl border bg-slate-50/50 px-4 py-3 text-sm text-slate-900 transition-all focus:outline-none focus:ring-4 focus:ring-emerald-500/10 ${
-                  errors.name
-                    ? "border-red-300 focus:border-red-500 focus:ring-red-500/10"
-                    : "border-slate-200 focus:border-emerald-500"
-                }`}
-                {...register("name")}
-              />
-              {errors.name && (
-                <span className="flex items-center gap-1.5 text-xs font-medium text-red-600">
-                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                  </svg>
-                  {errors.name.message}
-                </span>
-              )}
+              <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-semibold text-slate-500">
+                Step {step} / 3
+              </span>
             </div>
 
-            {/* Email Input */}
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="email" className="text-sm font-semibold text-slate-900">
-                Work Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                disabled={submissionStatus === "submitting"}
-                placeholder="john@company.com"
-                className={`w-full rounded-xl border bg-slate-50/50 px-4 py-3 text-sm text-slate-900 transition-all focus:outline-none focus:ring-4 focus:ring-emerald-500/10 ${
-                  errors.email
-                    ? "border-red-300 focus:border-red-500 focus:ring-red-500/10"
-                    : "border-slate-200 focus:border-emerald-500"
-                }`}
-                {...register("email")}
-              />
-              {errors.email && (
-                <span className="flex items-center gap-1.5 text-xs font-medium text-red-600">
-                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                  </svg>
-                  {errors.email.message}
-                </span>
-              )}
-            </div>
+            <ProgressRail step={step} />
 
-            {/* Service Type Dropdown */}
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="serviceType" className="text-sm font-semibold text-slate-900">
-                What do you need help with?
-              </label>
-              <div className="relative">
-                <select
-                  id="serviceType"
-                  disabled={submissionStatus === "submitting"}
-                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 pr-10 text-sm text-slate-900 transition-all focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
-                  {...register("serviceType")}
-                >
-                  <option value="web-development">Web Architecture & Development</option>
-                  <option value="ai-optimization">Next-Gen AI Optimization</option>
-                  <option value="social-media-marketing">Social Media Growth Engines</option>
-                  <option value="gmb-optimization">GMB & Local Market Dominance</option>
-                  <option value="seo">Advanced SEO Orchestration</option>
-                  <option value="app-development">Native & Cross-Platform App Engineering</option>
-                  <option value="content-marketing">High-Converting Content Marketing</option>
-                  <option value="devops-cloud">DevOps & Cloud Automation</option>
-                  <option value="brand-strategy">Brand Strategy & Identity</option>
-                  <option value="general">General / Other Inquiry</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-slate-500">
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
+            {status === "error" ? (
+              <div className="mb-5 rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-700">
+                {errorMessage}
               </div>
-              {errors.serviceType && (
-                <span className="flex items-center gap-1.5 text-xs font-medium text-red-600">
-                  {errors.serviceType.message}
-                </span>
-              )}
+            ) : null}
+
+            <div className="relative min-h-[280px] overflow-hidden">
+              <AnimatePresence mode="wait" custom={direction}>
+                {step === 1 ? (
+                  <motion.div
+                    key="step-1"
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={SPRING.snappy}
+                    className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+                  >
+                    {SERVICES.map((svc) => {
+                      const Icon = svc.icon;
+                      const selected = serviceId === svc.id;
+                      return (
+                        <button
+                          key={svc.id}
+                          type="button"
+                          onClick={() => setServiceId(svc.id)}
+                          className={`group flex flex-col rounded-2xl border p-4 text-left transition-all ${
+                            selected
+                              ? "border-emerald-400 bg-emerald-50/80 shadow-[0_0_20px_rgba(16,185,129,0.15)]"
+                              : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-md"
+                          }`}
+                        >
+                          <span
+                            className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl border ${
+                              selected
+                                ? "border-emerald-300 bg-white text-emerald-600"
+                                : "border-slate-200 bg-slate-50 text-slate-600"
+                            }`}
+                          >
+                            <Icon className="h-5 w-5" strokeWidth={2} />
+                          </span>
+                          <span className="font-display text-sm font-extrabold tracking-tight text-slate-900">
+                            {svc.title}
+                          </span>
+                          <span className="mt-1 text-xs leading-relaxed text-slate-500">
+                            {svc.desc}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </motion.div>
+                ) : null}
+
+                {step === 2 ? (
+                  <motion.div
+                    key="step-2"
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={SPRING.snappy}
+                    className="space-y-3"
+                  >
+                    <p className="text-sm leading-relaxed text-slate-600">
+                      Choose the investment band that matches your timeline and
+                      ambition.
+                    </p>
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                      {BUDGETS.map((b) => {
+                        const selected = budgetId === b.id;
+                        return (
+                          <button
+                            key={b.id}
+                            type="button"
+                            onClick={() => setBudgetId(b.id)}
+                            className={`rounded-2xl border p-4 text-left transition-all ${
+                              selected
+                                ? "border-emerald-400 bg-emerald-50/80 shadow-[0_0_20px_rgba(16,185,129,0.15)]"
+                                : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-md"
+                            }`}
+                          >
+                            <span className="font-display text-lg font-extrabold tracking-tight text-slate-900">
+                              {b.label}
+                            </span>
+                            <span className="mt-1 block text-xs text-slate-500">
+                              {b.hint}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                ) : null}
+
+                {step === 3 ? (
+                  <motion.div
+                    key="step-3"
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={SPRING.snappy}
+                    className="space-y-4"
+                  >
+                    <div className="flex flex-col gap-1.5">
+                      <label
+                        htmlFor="planner-name"
+                        className="text-sm font-semibold text-slate-900"
+                      >
+                        Full name
+                      </label>
+                      <input
+                        id="planner-name"
+                        type="text"
+                        value={name}
+                        disabled={status === "submitting"}
+                        onBlur={() => setTouched((t) => ({ ...t, name: true }))}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Alex Rivera"
+                        className={`w-full rounded-xl border bg-slate-50/50 px-4 py-3 text-sm text-slate-900 transition-all focus:outline-none focus:ring-4 ${
+                          touched.name && !nameOk
+                            ? "border-red-300 focus:border-red-500 focus:ring-red-500/10"
+                            : nameOk
+                              ? "border-emerald-300 focus:border-emerald-500 focus:ring-emerald-500/10"
+                              : "border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/10"
+                        }`}
+                      />
+                      {touched.name && !nameOk ? (
+                        <span className="text-xs font-medium text-red-600">
+                          Enter at least 2 characters.
+                        </span>
+                      ) : null}
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label
+                        htmlFor="planner-email"
+                        className="text-sm font-semibold text-slate-900"
+                      >
+                        Work email
+                      </label>
+                      <input
+                        id="planner-email"
+                        type="email"
+                        value={email}
+                        disabled={status === "submitting"}
+                        onBlur={() => setTouched((t) => ({ ...t, email: true }))}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="alex@company.com"
+                        className={`w-full rounded-xl border bg-slate-50/50 px-4 py-3 text-sm text-slate-900 transition-all focus:outline-none focus:ring-4 ${
+                          touched.email && !emailOk
+                            ? "border-red-300 focus:border-red-500 focus:ring-red-500/10"
+                            : emailOk
+                              ? "border-emerald-300 focus:border-emerald-500 focus:ring-emerald-500/10"
+                              : "border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/10"
+                        }`}
+                      />
+                      {touched.email && !emailOk ? (
+                        <span className="text-xs font-medium text-red-600">
+                          Enter a valid email address.
+                        </span>
+                      ) : null}
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label
+                        htmlFor="planner-details"
+                        className="text-sm font-semibold text-slate-900"
+                      >
+                        Brief project details
+                      </label>
+                      <textarea
+                        id="planner-details"
+                        rows={4}
+                        value={details}
+                        disabled={status === "submitting"}
+                        onBlur={() =>
+                          setTouched((t) => ({ ...t, details: true }))
+                        }
+                        onChange={(e) => setDetails(e.target.value)}
+                        placeholder="Goals, timeline, stack preferences, must-haves..."
+                        className={`w-full rounded-xl border bg-slate-50/50 px-4 py-3 text-sm text-slate-900 transition-all focus:outline-none focus:ring-4 ${
+                          touched.details && !detailsOk
+                            ? "border-red-300 focus:border-red-500 focus:ring-red-500/10"
+                            : detailsOk
+                              ? "border-emerald-300 focus:border-emerald-500 focus:ring-emerald-500/10"
+                              : "border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/10"
+                        }`}
+                      />
+                      {touched.details && !detailsOk ? (
+                        <span className="text-xs font-medium text-red-600">
+                          Add at least 10 characters so we can scope accurately.
+                        </span>
+                      ) : null}
+                    </div>
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
             </div>
 
-            {/* Message Textarea */}
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="message" className="text-sm font-semibold text-slate-900">
-                Project details
-              </label>
-              <textarea
-                id="message"
-                disabled={submissionStatus === "submitting"}
-                rows={4}
-                placeholder="Tell us about your project, timelines, and scaling goals..."
-                className={`w-full rounded-xl border bg-slate-50/50 px-4 py-3 text-sm text-slate-900 transition-all focus:outline-none focus:ring-4 focus:ring-emerald-500/10 ${
-                  errors.message
-                    ? "border-red-300 focus:border-red-500 focus:ring-red-500/10"
-                    : "border-slate-200 focus:border-emerald-500"
-                }`}
-                {...register("message")}
-              />
-              {errors.message && (
-                <span className="flex items-center gap-1.5 text-xs font-medium text-red-600">
-                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                  </svg>
-                  {errors.message.message}
-                </span>
-              )}
-            </div>
+            <div className="mt-8 flex items-center justify-between gap-3">
+              <motion.button
+                type="button"
+                disabled={step === 1 || status === "submitting"}
+                onClick={() => goTo(step - 1)}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back
+              </motion.button>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={submissionStatus === "submitting"}
-              className="group relative flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-3.5 text-sm font-semibold text-white transition-all hover:bg-emerald-600 disabled:bg-slate-400"
-            >
-              {submissionStatus === "submitting" ? (
-                <>
-                  <svg className="h-5 w-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
-                  Sending Message...
-                </>
+              {step < 3 ? (
+                <Magnetic>
+                  <motion.button
+                    type="button"
+                    disabled={!canContinue}
+                    onClick={() => goTo(step + 1)}
+                    whileTap={{ scale: 0.97 }}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-300"
+                  >
+                    Continue
+                    <ArrowRight className="h-4 w-4" />
+                  </motion.button>
+                </Magnetic>
               ) : (
-                <>
-                  Initiate Alignment
-                  <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </>
+                <Magnetic>
+                  <motion.button
+                    type="button"
+                    disabled={!canContinue || status === "submitting"}
+                    onClick={onSubmit}
+                    whileTap={{ scale: 0.97 }}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-300"
+                  >
+                    {status === "submitting" ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                        Submitting…
+                      </>
+                    ) : (
+                      <>
+                        Submit scope
+                        <ArrowRight className="h-4 w-4" />
+                      </>
+                    )}
+                  </motion.button>
+                </Magnetic>
               )}
-            </button>
-          </motion.form>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

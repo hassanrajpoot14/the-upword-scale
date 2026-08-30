@@ -2,29 +2,29 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import ActionLink from "../ui/ActionLink";
+import { accentCardClasses, AccentBar } from "../ui/AccentCard";
 import ServiceFaq from "./ServiceFaq";
+import ArchitectureTopology from "../visuals/ArchitectureTopology";
+import { getServicePipeline } from "../../data/servicePipelines";
+import { SPRING, staggerContainer } from "../motion/springs";
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
+const containerVariants = staggerContainer(0.1, 0.04);
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 22 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    transition: SPRING.reveal,
   },
 };
 
 export default function ServicePageClient({ service }) {
+  const architecturePipeline = getServicePipeline(service.slug);
+
   return (
-    <div className="relative overflow-hidden bg-slate-50">
+    <div className="relative overflow-hidden bg-transparent">
       {/* Background Grid Pattern */}
       <div
         className="pointer-events-none absolute inset-0"
@@ -61,7 +61,7 @@ export default function ServicePageClient({ service }) {
             {/* Service Title */}
             <motion.h1
               variants={itemVariants}
-              className="mt-6 max-w-4xl text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl md:text-6xl"
+              className="heading-gradient mt-6 max-w-4xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl"
             >
               {service.title}
             </motion.h1>
@@ -87,8 +87,9 @@ export default function ServicePageClient({ service }) {
               variants={itemVariants}
               className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
             >
-              <Link
+              <ActionLink
                 href="/contact"
+                magnetic
                 className="group inline-flex items-center gap-2 rounded-full bg-slate-900 px-8 py-4 text-sm font-semibold text-white transition-all duration-300 hover:bg-emerald-600 hover:shadow-lg"
               >
                 Schedule a Consultation
@@ -98,16 +99,19 @@ export default function ServicePageClient({ service }) {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   strokeWidth="2"
+                  aria-hidden
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
-              </Link>
-              <Link
+              </ActionLink>
+              <ActionLink
                 href="/services"
+                magnetic
+                magneticStrength={0.2}
                 className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-8 py-4 text-sm font-semibold text-slate-950 transition-all duration-300 hover:border-slate-400 hover:bg-slate-50"
               >
                 All Services
-              </Link>
+              </ActionLink>
             </motion.div>
           </section>
 
@@ -115,9 +119,10 @@ export default function ServicePageClient({ service }) {
           {service.metrics && service.metrics.length > 0 && (
             <motion.section
               variants={itemVariants}
-              className="rounded-2xl border border-slate-100 bg-white p-8 shadow-sm backdrop-blur-sm sm:p-12"
+              className={`${accentCardClasses} p-8 sm:p-12`}
             >
-              <div className="grid grid-cols-1 gap-8 divide-y divide-slate-100 md:grid-cols-3 md:divide-y-0 md:divide-x">
+              <AccentBar />
+              <div className="relative z-10 grid grid-cols-1 gap-8 divide-y divide-slate-100 md:grid-cols-3 md:divide-y-0 md:divide-x dark:divide-slate-800">
                 {service.metrics.map((metric, i) => (
                   <div key={i} className="flex flex-col items-center text-center md:px-4 first:pl-0 last:pr-0">
                     <span className="text-4xl font-extrabold tracking-tight text-emerald-600 sm:text-5xl">
@@ -132,10 +137,15 @@ export default function ServicePageClient({ service }) {
             </motion.section>
           )}
 
+          {/* Architecture topology — request flow pipeline */}
+          <motion.section variants={itemVariants}>
+            <ArchitectureTopology steps={architecturePipeline} />
+          </motion.section>
+
           {/* 3. Key Benefits */}
           <section className="flex flex-col gap-12">
             <div className="text-center">
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+              <h2 className="heading-gradient text-2xl font-bold tracking-tight sm:text-3xl">
                 Key Benefits
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-sm text-slate-600 sm:text-base">
@@ -148,10 +158,11 @@ export default function ServicePageClient({ service }) {
                 <motion.div
                   key={i}
                   variants={itemVariants}
-                  whileHover={{ y: -6, scale: 1.02 }}
-                  className="flex flex-col rounded-2xl border border-slate-100 bg-white p-8 shadow-sm transition-all duration-300 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-950/5"
+                  className={`${accentCardClasses} flex flex-col p-8`}
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                  <AccentBar />
+                  <div className="relative z-10">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10">
                     <svg
                       className="h-5 w-5"
                       fill="none"
@@ -162,8 +173,9 @@ export default function ServicePageClient({ service }) {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h3 className="mt-6 text-lg font-bold text-slate-900">{benefit.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-600">{benefit.desc}</p>
+                  <h3 className="mt-6 text-lg font-bold text-slate-900 dark:text-slate-100">{benefit.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{benefit.desc}</p>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -172,7 +184,7 @@ export default function ServicePageClient({ service }) {
           {/* 4. Features & Core Deliverables */}
           <section className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
             <div className="flex flex-col justify-center">
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+              <h2 className="heading-gradient text-2xl font-bold tracking-tight sm:text-3xl">
                 Core Deliverables & Scope
               </h2>
               <p className="mt-4 text-base leading-relaxed text-slate-600">
@@ -200,8 +212,9 @@ export default function ServicePageClient({ service }) {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-100 bg-white p-8 shadow-sm">
-              <ul className="space-y-4">
+            <div className={`${accentCardClasses} p-8`}>
+              <AccentBar />
+              <ul className="relative z-10 space-y-4">
                 {service.features.map((feature, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
@@ -227,7 +240,7 @@ export default function ServicePageClient({ service }) {
           {/* 5. Process Roadmap */}
           <section className="flex flex-col gap-12">
             <div className="text-center">
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+              <h2 className="heading-gradient text-2xl font-bold tracking-tight sm:text-3xl">
                 The Scale-Up Process
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-sm text-slate-600 sm:text-base">
@@ -237,19 +250,24 @@ export default function ServicePageClient({ service }) {
 
             <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
               {service.process.map((step, i) => (
-                <div key={i} className="relative flex flex-col rounded-xl border border-slate-100 bg-white p-6 shadow-sm">
-                  <span className="text-3xl font-extrabold text-slate-100">{step.step}</span>
-                  <h3 className="mt-4 text-base font-bold text-slate-900">{step.title}</h3>
-                  <p className="mt-2 text-xs leading-relaxed text-slate-500">{step.desc}</p>
+                <div key={i} className={`${accentCardClasses} flex flex-col p-6`}>
+                  <AccentBar />
+                  <div className="relative z-10">
+                  <span className="text-3xl font-extrabold text-slate-200 dark:text-slate-700">{step.step}</span>
+                  <h3 className="mt-4 text-base font-bold text-slate-900 dark:text-slate-100">{step.title}</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{step.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </section>
 
           {/* 6. FAQs Accordion */}
-          <section className="flex flex-col gap-12 rounded-2xl border border-slate-100 bg-white py-12 px-6 shadow-sm sm:px-12">
+          <section className={`${accentCardClasses} flex flex-col gap-12 px-6 py-12 sm:px-12`}>
+            <AccentBar />
+            <div className="relative z-10 flex flex-col gap-12">
             <div className="text-center">
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+              <h2 className="heading-gradient text-2xl font-bold tracking-tight sm:text-3xl">
                 Frequently Asked Questions
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-sm text-slate-600 sm:text-base">
@@ -258,6 +276,7 @@ export default function ServicePageClient({ service }) {
             </div>
 
             <ServiceFaq faqs={service.faqs} />
+            </div>
           </section>
         </motion.div>
       </main>

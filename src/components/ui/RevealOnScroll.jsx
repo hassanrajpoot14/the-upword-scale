@@ -1,12 +1,11 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
+import { SPRING, staggerContainer, revealChild } from "../motion/springs";
 
-// ─── Preset animation presets ─────────────────────────────────────────────────
 const PRESETS = {
   fadeUp: {
-    hidden: { opacity: 0, y: 36 },
+    hidden: { opacity: 0, y: 32 },
     visible: { opacity: 1, y: 0 },
   },
   fadeIn: {
@@ -14,15 +13,15 @@ const PRESETS = {
     visible: { opacity: 1 },
   },
   fadeLeft: {
-    hidden: { opacity: 0, x: -40 },
+    hidden: { opacity: 0, x: -36 },
     visible: { opacity: 1, x: 0 },
   },
   fadeRight: {
-    hidden: { opacity: 0, x: 40 },
+    hidden: { opacity: 0, x: 36 },
     visible: { opacity: 1, x: 0 },
   },
   scaleUp: {
-    hidden: { opacity: 0, scale: 0.92 },
+    hidden: { opacity: 0, scale: 0.94 },
     visible: { opacity: 1, scale: 1 },
   },
   blur: {
@@ -31,39 +30,35 @@ const PRESETS = {
   },
 };
 
-// ─── Component ────────────────────────────────────────────────────────────────
+/**
+ * Viewport reveal with physics spring.
+ * Pass staggerChild when nested inside StaggerReveal so the parent owns timing.
+ */
 export default function RevealOnScroll({
   children,
   preset = "fadeUp",
   delay = 0,
-  duration = 0.65,
-  threshold = 0.12,
-  margin = "-60px",
+  threshold = 0.1,
+  margin = "-40px",
   className = "",
   as = "div",
   variants,
+  staggerChild = false,
 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, {
-    once: true,
-    amount: threshold,
-    margin,
-  });
-
-  const activeVariants = variants ?? PRESETS[preset];
+  const activeVariants = variants ?? (staggerChild ? revealChild : PRESETS[preset]);
   const MotionTag = motion[as] || motion.div;
 
   return (
     <MotionTag
-      ref={ref}
       variants={activeVariants}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      transition={{
-        duration,
-        delay,
-        ease: [0.22, 1, 0.36, 1],
-      }}
+      {...(staggerChild
+        ? {}
+        : {
+            initial: "hidden",
+            whileInView: "visible",
+            viewport: { once: true, amount: threshold, margin },
+            transition: { ...SPRING.reveal, delay },
+          })}
       className={className}
     >
       {children}
@@ -71,32 +66,23 @@ export default function RevealOnScroll({
   );
 }
 
-// ─── Stagger container helper ─────────────────────────────────────────────────
+/**
+ * Stagger container — children with staggerChild / reveal variants animate in sequence.
+ */
 export function StaggerReveal({
   children,
   staggerDelay = 0.1,
+  delayChildren = 0.04,
   className = "",
   margin = "-60px",
   threshold = 0.08,
 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, {
-    once: true,
-    amount: threshold,
-    margin,
-  });
-
   return (
     <motion.div
-      ref={ref}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      variants={{
-        hidden: {},
-        visible: {
-          transition: { staggerChildren: staggerDelay },
-        },
-      }}
+      whileInView="visible"
+      viewport={{ once: true, amount: threshold, margin }}
+      variants={staggerContainer(staggerDelay, delayChildren)}
       className={className}
     >
       {children}

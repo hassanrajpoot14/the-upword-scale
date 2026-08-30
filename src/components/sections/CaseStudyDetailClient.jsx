@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
@@ -13,6 +12,10 @@ import {
   Lightbulb,
   Swords,
 } from "lucide-react";
+import GlowIcon from "../ui/GlowIcon";
+import Magnetic from "../ui/Magnetic";
+import TechVisualPanel from "../visuals/TechVisualPanel";
+import TechIconRow from "../ui/TechIconRow";
 
 // ─── Accent colour utilities ──────────────────────────────────────────────────
 const ACCENT = {
@@ -76,7 +79,7 @@ const ACCENT = {
 // ─── Motion variants ──────────────────────────────────────────────────────────
 const container = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.04 } },
 };
 
 const item = {
@@ -84,7 +87,7 @@ const item = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+    transition: { type: "spring", stiffness: 80, damping: 15 },
   },
 };
 
@@ -93,7 +96,7 @@ export default function CaseStudyDetailClient({ study, related }) {
   const accent = ACCENT[study.accentColor ?? "emerald"];
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-slate-50">
+    <div className="relative min-h-screen bg-transparent">
       {/* Subtle grid overlay */}
       <div
         className="pointer-events-none absolute inset-0"
@@ -145,7 +148,7 @@ export default function CaseStudyDetailClient({ study, related }) {
             </div>
 
             {/* Main title */}
-            <h1 className="max-w-3xl text-3xl font-extrabold leading-tight tracking-tight text-slate-905 sm:text-5xl">
+            <h1 className="heading-gradient max-w-3xl text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
               {study.title}
             </h1>
 
@@ -154,42 +157,46 @@ export default function CaseStudyDetailClient({ study, related }) {
               {study.tagline}
             </p>
 
-            {study.imageUrl && (
-              <div className="relative mt-2 aspect-[21/9] w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm">
-                <Image
-                  src={study.imageUrl}
-                  alt={study.imageAlt || study.title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 960px"
-                  className="object-cover"
-                  priority
+            {study.category && (
+              <div className="mt-2 min-w-0 w-full overflow-hidden">
+                <TechVisualPanel
+                  variant="auto"
+                  category={study.category}
+                  title={study.client}
+                  caption={study.tagline}
+                  statusLabel="Case systems online"
                 />
               </div>
             )}
 
-            {/* Tech tags */}
-            <div className="flex flex-wrap gap-2">
-              {study.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ${accent.tag}`}
-                >
-                  {tag}
-                </span>
-              ))}
+            {/* Tech stack + tags */}
+            <div className="flex flex-col gap-3">
+              {study.stack?.length ? (
+                <TechIconRow variant="chips" keys={study.stack} size="sm" />
+              ) : null}
+              <div className="flex flex-wrap gap-2">
+                {study.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className={`rounded-full px-3 py-1 text-xs font-semibold ${accent.tag}`}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
           </motion.section>
 
           {/* ── Results metrics strip ── */}
           <motion.section
             variants={item}
-            className="rounded-2xl border border-slate-100 bg-white p-8 shadow-sm sm:p-10"
+            className="rounded-2xl card-glass p-8 sm:p-10"
           >
             <div className="mb-8 flex items-center gap-2">
-              <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${accent.iconBg}`}>
-                <BarChart3 className={`h-4 w-4 ${accent.iconText}`} />
-              </div>
-              <h2 className="text-base font-bold uppercase tracking-wider text-slate-700">
+              <GlowIcon size="sm">
+                <BarChart3 className="h-4 w-4" strokeWidth={2} />
+              </GlowIcon>
+              <h2 className="heading-gradient text-base font-bold uppercase tracking-wider">
                 Key Results
               </h2>
             </div>
@@ -218,12 +225,12 @@ export default function CaseStudyDetailClient({ study, related }) {
             className="grid grid-cols-1 gap-8 lg:grid-cols-2"
           >
             {/* Challenge */}
-            <div className="flex flex-col rounded-2xl border border-slate-100 bg-white p-8 shadow-sm">
+            <div className="flex flex-col rounded-2xl card-glass p-8">
               <div className="mb-4 flex items-center gap-2">
-                <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${accent.iconBg}`}>
-                  <Swords className={`h-4 w-4 ${accent.iconText}`} />
-                </div>
-                <h2 className="text-sm font-bold uppercase tracking-wider text-slate-700">
+                <GlowIcon size="sm">
+                  <Swords className="h-4 w-4" strokeWidth={2} />
+                </GlowIcon>
+                <h2 className="heading-gradient text-sm font-bold uppercase tracking-wider">
                   The Challenge
                 </h2>
               </div>
@@ -231,12 +238,12 @@ export default function CaseStudyDetailClient({ study, related }) {
             </div>
 
             {/* Solution */}
-            <div className="flex flex-col rounded-2xl border border-slate-100 bg-white p-8 shadow-sm">
+            <div className="flex flex-col rounded-2xl card-glass p-8">
               <div className="mb-4 flex items-center gap-2">
-                <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${accent.iconBg}`}>
-                  <Lightbulb className={`h-4 w-4 ${accent.iconText}`} />
-                </div>
-                <h2 className="text-sm font-bold uppercase tracking-wider text-slate-700">
+                <GlowIcon size="sm">
+                  <Lightbulb className="h-4 w-4" strokeWidth={2} />
+                </GlowIcon>
+                <h2 className="heading-gradient text-sm font-bold uppercase tracking-wider">
                   Our Solution
                 </h2>
               </div>
@@ -247,15 +254,17 @@ export default function CaseStudyDetailClient({ study, related }) {
           {/* ── Deliverables checklist ── */}
           <motion.section
             variants={item}
-            className="rounded-2xl border border-slate-100 bg-white p-8 shadow-sm sm:p-10"
+            className="rounded-2xl card-glass p-8 sm:p-10"
           >
-            <h2 className="mb-6 text-sm font-bold uppercase tracking-wider text-slate-700">
+            <h2 className="heading-gradient mb-6 text-sm font-bold uppercase tracking-wider">
               What We Delivered
             </h2>
             <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {study.tags.map((tag) => (
                 <li key={tag} className="flex items-center gap-3">
-                  <CheckCircle2 className={`h-5 w-5 shrink-0 ${accent.iconText}`} />
+                  <GlowIcon size="sm">
+                    <CheckCircle2 className="h-5 w-5" strokeWidth={2} />
+                  </GlowIcon>
                   <span className="text-sm font-medium text-slate-700">{tag}</span>
                 </li>
               ))}
@@ -297,24 +306,34 @@ export default function CaseStudyDetailClient({ study, related }) {
           {/* ── CTA ── */}
           <motion.div
             variants={item}
-            className="flex flex-col items-center gap-4 rounded-2xl border border-slate-100 bg-white p-10 text-center shadow-sm sm:p-14"
+            className="flex flex-col items-center gap-4 rounded-2xl card-glass p-10 text-center sm:p-14"
           >
             <p className={`text-xs font-bold uppercase tracking-widest ${accent.heroText}`}>
               Want results like these?
             </p>
-            <h2 className="max-w-md text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+            <h2 className="heading-gradient max-w-md text-2xl font-extrabold tracking-tight sm:text-3xl">
               Let&rsquo;s discuss your project.
             </h2>
             <p className="max-w-sm text-sm leading-relaxed text-slate-505">
               Every case study above started with a single free strategy call. Yours is next.
             </p>
-            <Link
-              href="/contact"
-              className={`mt-2 inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-bold text-white shadow-md transition-all duration-300 hover:shadow-lg ${accent.btn}`}
-            >
-              Start a Conversation
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
+            <Magnetic>
+              <Link
+                href="/contact"
+                className={`mt-2 inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-bold text-white shadow-md transition-all duration-300 hover:shadow-lg ${accent.btn}`}
+              >
+                Start a Conversation
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </Magnetic>
+            {study.stack?.length ? (
+              <TechIconRow
+                variant="icons"
+                keys={study.stack}
+                size="md"
+                className="mt-2"
+              />
+            ) : null}
           </motion.div>
         </motion.div>
 
@@ -322,7 +341,7 @@ export default function CaseStudyDetailClient({ study, related }) {
         {related.length > 0 && (
           <section className="mt-28">
             <div className="mb-10 flex flex-col gap-2">
-              <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">
+              <h2 className="heading-gradient text-2xl font-extrabold tracking-tight">
                 More Case Studies
               </h2>
               <p className="text-sm text-slate-500">
@@ -333,9 +352,11 @@ export default function CaseStudyDetailClient({ study, related }) {
               {related.map((s) => {
                 const ra = ACCENT[s.accentColor ?? "emerald"];
                 return (
-                  <article
+                  <motion.article
                     key={s.slug}
-                    className="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl"
+                    whileHover={{ y: -6, scale: 1.01 }}
+                    transition={{ type: "spring", stiffness: 320, damping: 22 }}
+                    className="group relative flex flex-col overflow-hidden rounded-3xl card-glass hover:shadow-xl"
                   >
                     <div
                       className={`h-1 w-full bg-gradient-to-r ${ra.gradientBar}`}
@@ -352,6 +373,15 @@ export default function CaseStudyDetailClient({ study, related }) {
                       <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-slate-505">
                         {s.challenge}
                       </p>
+                      {s.stack?.length ? (
+                        <div className="mt-3">
+                          <TechIconRow
+                            variant="chips"
+                            keys={s.stack}
+                            size="sm"
+                          />
+                        </div>
+                      ) : null}
                       <div className="mt-auto flex items-center justify-between border-t border-slate-100 pt-4 mt-5">
                         <span className="text-xs font-semibold text-slate-400">{s.client}</span>
                         <ArrowUpRight className={`h-4 w-4 ${ra.iconText}`} />
@@ -362,7 +392,7 @@ export default function CaseStudyDetailClient({ study, related }) {
                       className="absolute inset-0 z-10 rounded-3xl"
                       aria-label={`View case study: ${s.title}`}
                     />
-                  </article>
+                  </motion.article>
                 );
               })}
             </div>

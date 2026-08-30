@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 // ─── Default service titles ───────────────────────────────────────────────────
 const DEFAULT_TITLES = [
@@ -18,89 +17,77 @@ export default function DynamicServiceTitle({
   titles = DEFAULT_TITLES,
   className = "",
 }) {
+  const [mounted, setMounted] = useState(false);
   const [currentWord, setCurrentWord] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(120);
 
-  const measureRef = useRef(null);
-
   const index = loopNum % titles.length;
   const fullTxt = titles[index];
 
   useEffect(() => {
-    let timer;
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return undefined;
 
     const handleType = () => {
       if (!isDeleting) {
-        // Typing characters
         const nextText = fullTxt.substring(0, currentWord.length + 1);
         setCurrentWord(nextText);
 
         if (nextText === fullTxt) {
-          // Pause at the complete word
           setIsDeleting(true);
-          setTypingSpeed(2200); // Keep word visible for 2.2s
+          setTypingSpeed(2200);
         } else {
-          // Dynamic speed to feel natural/candid
-          setTypingSpeed(80 + Math.random() * 60);
+          setTypingSpeed(90);
         }
       } else {
-        // Deleting characters
         const nextText = fullTxt.substring(0, currentWord.length - 1);
         setCurrentWord(nextText);
 
         if (nextText === "") {
           setIsDeleting(false);
-          setLoopNum(loopNum + 1);
-          setTypingSpeed(400); // Brief pause before starting next word
+          setLoopNum((n) => n + 1);
+          setTypingSpeed(400);
         } else {
-          setTypingSpeed(45); // Deleting is faster and snappier
+          setTypingSpeed(45);
         }
       }
     };
 
-    timer = setTimeout(handleType, typingSpeed);
+    const timer = setTimeout(handleType, typingSpeed);
     return () => clearTimeout(timer);
-  }, [currentWord, isDeleting, loopNum, fullTxt, typingSpeed]);
+  }, [mounted, currentWord, isDeleting, loopNum, fullTxt, typingSpeed]);
+
+  const longestTitle = titles.reduce(
+    (a, b) => (a.length >= b.length ? a : b),
+    titles[0] ?? ""
+  );
 
   return (
     <span
-      className={`relative inline-flex flex-col items-center justify-center overflow-hidden align-bottom ${className}`}
-      style={{ verticalAlign: "bottom" }}
+      className={`relative inline-block max-w-full align-bottom ${className}`}
       aria-live="polite"
       aria-atomic="true"
     >
-      {/* Hidden sizer — renders every title simultaneously (opacity-0) */}
-      <span
-        ref={measureRef}
-        aria-hidden="true"
-        className="pointer-events-none flex flex-col opacity-0 select-none"
-        style={{ position: "absolute", whiteSpace: "nowrap" }}
-      >
-        {titles.map((t) => (
-          <span key={t}>{t}</span>
-        ))}
-      </span>
-
-      {/* Invisible spacer */}
+      {/* Reserve width for longest title so layout doesn't shift */}
       <span aria-hidden className="invisible whitespace-nowrap select-none">
-        {titles[0]}
+        {longestTitle}
       </span>
 
-      {/* The animated typewriter word */}
       <span
-        className="absolute inset-0 flex items-center justify-center"
-        style={{ whiteSpace: "nowrap" }}
+        className="absolute left-0 top-0 whitespace-nowrap"
+        aria-hidden={false}
       >
         <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 bg-clip-text text-transparent">
           {currentWord}
         </span>
-        <motion.span
-          animate={{ opacity: [1, 0, 1] }}
-          transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }}
-          className="inline-block w-[3px] h-[1.1em] bg-emerald-500 ml-1 rounded-sm align-middle"
-          style={{ willChange: "opacity" }}
+        <span
+          aria-hidden
+          className="ml-1 inline-block h-[1.1em] w-[3px] animate-pulse rounded-sm bg-emerald-500 align-middle"
         />
       </span>
     </span>

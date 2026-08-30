@@ -82,15 +82,36 @@ export default function Preloader() {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    // Mark skeleton "complete" after a short display window
-    const doneTimer = setTimeout(() => setReady(true), 900);
-    // Fully unmount after exit animation completes
-    const hideTimer = setTimeout(() => setVisible(false), 1500);
+    let cancelled = false;
+    const doneTimer = setTimeout(() => {
+      if (!cancelled) setReady(true);
+    }, 900);
+    const hideTimer = setTimeout(() => {
+      if (!cancelled) setVisible(false);
+    }, 1500);
     return () => {
+      cancelled = true;
       clearTimeout(doneTimer);
       clearTimeout(hideTimer);
     };
   }, []);
+
+  // Defer motion tree one frame so React finishes mounting before FM animates
+  const [animReady, setAnimReady] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setAnimReady(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  if (!animReady) {
+    return (
+      <div
+        className="fixed inset-0 z-[9999]"
+        style={{ background: "#0B1120" }}
+        aria-hidden
+      />
+    );
+  }
 
   return (
     <AnimatePresence>

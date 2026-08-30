@@ -1,15 +1,23 @@
-import ContactForm from "../../src/components/sections/ContactForm";
+import dynamic from "next/dynamic";
+import { buildPageMetadata } from "../../src/lib/og/metadata";
+import ContactFormSkeleton from "../../src/components/ui/ContactFormSkeleton";
 import { CONTACT_INFO } from "../../src/data/contactInfo";
 
-export const metadata = {
+const ContactForm = dynamic(
+  () => import("../../src/components/sections/ContactForm"),
+  { loading: () => <ContactFormSkeleton /> }
+);
+
+export const metadata = buildPageMetadata({
   title: "Contact Us | The Upward Scale",
   description:
     "Connect with our growth architects to scale your digital brand to maximum velocity.",
-};
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-slate-50">
+    <div className="relative min-h-screen overflow-hidden bg-transparent">
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -31,55 +39,65 @@ export default function ContactPage() {
           <div className="flex flex-col justify-between lg:col-span-5">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-emerald-700">
-                Align Your Brand
+                Project Planner
               </div>
 
-              <h1 className="text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-                Let&apos;s Scale to{" "}
-                <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
-                  New Heights
-                </span>
+              <h1 className="heading-gradient text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+                Scope your next launch
               </h1>
 
               <p className="text-base leading-relaxed text-slate-600 sm:text-lg">
-                Have questions about our engineering packages, SEO services, or
-                custom AI optimization integrations? Tell us about your targets.
-                Our architects will construct a dedicated scaling roadmap.
+                Pick a service lane, set a budget band, and share a short brief.
+                We&apos;ll turn it into a concrete roadmap — usually within 24
+                hours.
               </p>
             </div>
 
             <div className="mt-12 space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-white text-emerald-600 shadow-sm">
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
+              {[
+                {
+                  label: "Direct Email",
+                  href: `mailto:${CONTACT_INFO.email}`,
+                  text: CONTACT_INFO.email,
+                  icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+                },
+                ...(CONTACT_INFO.phone && CONTACT_INFO.phoneHref
+                  ? [
+                      {
+                        label: "Direct Support Line",
+                        href: CONTACT_INFO.phoneHref,
+                        text: CONTACT_INFO.phone,
+                        icon: "M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z",
+                      },
+                    ]
+                  : []),
+              ].map((item) => (
+                <div key={item.label} className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl card-glass text-emerald-600">
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-900">{item.label}</h3>
+                    <a
+                      href={item.href}
+                      className="mt-1 text-sm text-slate-600 transition hover:text-emerald-600"
+                    >
+                      {item.text}
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-slate-900">
-                    Email Address
-                  </h3>
-                  <a
-                    href={`mailto:${CONTACT_INFO.email}`}
-                    className="mt-1 text-sm text-slate-600 transition hover:text-emerald-600"
-                  >
-                    {CONTACT_INFO.email}
-                  </a>
-                </div>
-              </div>
+              ))}
 
               <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-white text-emerald-600 shadow-sm">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl card-glass text-emerald-600">
                   <svg
                     className="h-5 w-5"
                     fill="none"
@@ -90,58 +108,25 @@ export default function ContactPage() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-slate-900">
-                    Direct Support Line
-                  </h3>
-                  <a
-                    href={CONTACT_INFO.phoneHref}
-                    className="mt-1 text-sm text-slate-600 transition hover:text-emerald-600"
-                  >
-                    {CONTACT_INFO.phone}
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-white text-emerald-600 shadow-sm">
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"
                     />
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-900">
-                    Headquarters
-                  </h3>
-                  <p className="mt-1 text-sm text-slate-600">
-                    {CONTACT_INFO.addressLine1}
-                    <br />
-                    {CONTACT_INFO.addressLine2}
+                  <h3 className="text-sm font-semibold text-slate-900">Studio Model</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                    {CONTACT_INFO.studioTagline}
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-white text-emerald-600 shadow-sm">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl card-glass text-emerald-600">
                   <svg
                     className="h-5 w-5"
                     fill="none"
@@ -157,10 +142,14 @@ export default function ContactPage() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-900">
-                    Operation Desk
-                  </h3>
-                  <p className="mt-1 text-sm text-slate-600">{CONTACT_INFO.hours}</p>
+                  <h3 className="text-sm font-semibold text-slate-900">Operating Window</h3>
+                  <p className="mt-1 inline-flex items-center gap-2 text-sm text-slate-600">
+                    <span
+                      className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-emerald-500"
+                      aria-hidden
+                    />
+                    {CONTACT_INFO.timezoneLabel} — {CONTACT_INFO.availability}
+                  </p>
                 </div>
               </div>
             </div>

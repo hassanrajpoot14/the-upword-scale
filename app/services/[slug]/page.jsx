@@ -1,6 +1,13 @@
+import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { SERVICES_DATA } from "../../../src/data/serviceData";
-import ServicePageClient from "../../../src/components/sections/ServicePageClient";
+import { buildPageMetadata } from "../../../src/lib/og/metadata";
+import PageShellSkeleton from "../../../src/components/ui/PageShellSkeleton";
+
+const ServicePageClient = dynamic(
+  () => import("../../../src/components/sections/ServicePageClient"),
+  { loading: () => <PageShellSkeleton /> }
+);
 
 // Generate metadata for each dynamic route
 export async function generateMetadata({ params }) {
@@ -14,15 +21,11 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  return {
+  return buildPageMetadata({
     title: `${service.title} | The Upward Scale`,
     description: service.description,
-    openGraph: {
-      title: `${service.title} | The Upward Scale`,
-      description: service.description,
-      type: "website",
-    },
-  };
+    path: `/services/${slug}`,
+  });
 }
 
 // Generate static params for optimal static pre-rendering
