@@ -15,6 +15,8 @@ export default function NavLinks({
   activeLayoutId = "activeTab",
   /** "desktop" mega panel vs "inline" accordion for the mobile drawer */
   servicesVariant = "desktop",
+  /** Light text on dark mobile drawer backgrounds */
+  inverted = false,
 }) {
   const pathname = usePathname();
 
@@ -39,6 +41,7 @@ export default function NavLinks({
                 activeLayoutId={activeLayoutId}
                 linkClassName={linkClassName}
                 onLinkClick={onLinkClick}
+                inverted={inverted}
               />
             </li>
           );
@@ -51,10 +54,14 @@ export default function NavLinks({
               onClick={onLinkClick}
               aria-current={isActive ? "page" : undefined}
               suppressHydrationWarning
-              className={`relative inline-flex items-center rounded-full px-3 py-2 text-sm font-medium transition-colors duration-300 hover:text-emerald-600 ${
-                isActive
-                  ? "text-emerald-600"
-                  : "text-slate-700 light:text-slate-700 text-slate-300 dark:text-slate-300"
+              className={`relative inline-flex items-center rounded-full px-3 py-2 text-sm font-medium transition-colors duration-300 ${
+                inverted
+                  ? isActive
+                    ? "text-emerald-400 hover:text-emerald-300"
+                    : "text-white hover:text-emerald-400"
+                  : isActive
+                    ? "text-emerald-600 hover:text-emerald-600"
+                    : "text-slate-700 light:text-slate-700 text-slate-300 dark:text-slate-300 hover:text-emerald-600"
               } ${linkClassName}`}
             >
               <span suppressHydrationWarning>{link.label}</span>

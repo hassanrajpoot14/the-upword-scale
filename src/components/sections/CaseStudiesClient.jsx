@@ -74,13 +74,13 @@ function CaseStudyCard({ study, onOpen }) {
           onOpen(study);
         }
       }}
-      className={`${accentCardLgClasses} cursor-pointer overflow-hidden shadow-lg shadow-slate-900/5 outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:shadow-black/20`}
+      className={`${accentCardLgClasses} group w-full min-w-0 cursor-pointer overflow-hidden shadow-lg shadow-slate-900/5 outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:shadow-black/20`}
     >
       <AccentBar />
-      <div className="relative z-10 grid w-full grid-cols-1 lg:grid-cols-2">
+      <div className="relative z-10 grid w-full min-w-0 grid-cols-1 xl:grid-cols-2">
         {/* Left — metric-driven copy */}
-        <div className="relative z-[1] flex flex-col justify-center p-6 sm:p-8 lg:pr-4">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="relative z-[1] flex min-w-0 flex-col justify-center p-4 sm:p-6 xl:pr-4">
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-600">
               <Building2 className="h-3 w-3 text-emerald-500" />
               {study.industry}
@@ -99,7 +99,7 @@ function CaseStudyCard({ study, onOpen }) {
           </p>
 
           {study.heroMetric ? (
-            <div className="mt-5 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200/80 bg-gradient-to-r from-emerald-50 to-teal-50 px-3.5 py-2 shadow-sm shadow-emerald-900/5">
+            <div className="mt-5 inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-emerald-200/80 bg-gradient-to-r from-emerald-50 to-teal-50 px-3.5 py-2 shadow-sm shadow-emerald-900/5">
               <span className="font-display text-base font-extrabold tracking-tight text-emerald-700 sm:text-lg">
                 {study.heroMetric.value}
               </span>
@@ -110,8 +110,13 @@ function CaseStudyCard({ study, onOpen }) {
           ) : null}
 
           {study.stack?.length ? (
-            <div className="mt-5">
-              <TechIconRow variant="chips" keys={study.stack} size="sm" />
+            <div className="mt-5 min-w-0 max-w-full overflow-hidden">
+              <TechIconRow
+                variant="chips"
+                keys={study.stack}
+                size="sm"
+                className="max-w-full"
+              />
             </div>
           ) : null}
 
@@ -122,21 +127,25 @@ function CaseStudyCard({ study, onOpen }) {
         </div>
 
         {/* Right — interactive browser mockup */}
-        <div className="relative z-[1] border-t border-slate-200/70 bg-slate-50/80 p-4 sm:p-6 lg:border-l lg:border-t-0 dark:border-slate-800 dark:bg-slate-900/40">
-          {isMobile ? (
-            <DeviceFrame variant="mobile" url={previewUrl}>
-              <CaseStudyPreview study={study} />
-            </DeviceFrame>
-          ) : (
-            <BrowserFrame
-              url={
-                study.liveUrl ||
-                `https://${previewUrl}`
-              }
-            >
-              <CaseStudyPreview study={study} />
-            </BrowserFrame>
-          )}
+        <div className="relative z-[1] min-w-0 overflow-hidden border-t border-slate-200/70 bg-slate-50/80 p-4 sm:p-5 xl:border-l xl:border-t-0 dark:border-slate-800 dark:bg-slate-900/40">
+          <div className="w-full min-w-0">
+            {isMobile ? (
+              <DeviceFrame variant="mobile" url={previewUrl} className="w-full">
+                <CaseStudyPreview study={study} className="h-full w-full" />
+              </DeviceFrame>
+            ) : (
+              <BrowserFrame
+                className="w-full"
+                url={
+                  study.liveUrl ||
+                  `https://${previewUrl}`
+                }
+                contentClassName="[&>*]:h-full [&>*]:w-full [&_img]:h-auto [&_img]:w-full [&_img]:object-cover"
+              >
+                <CaseStudyPreview study={study} className="h-full w-full object-cover" />
+              </BrowserFrame>
+            )}
+          </div>
         </div>
       </div>
     </motion.article>
@@ -221,7 +230,7 @@ export default function CaseStudiesClient() {
         <div className="absolute right-1/4 top-1/3 h-[420px] w-[420px] max-w-full rounded-full bg-teal-100/25 blur-[120px]" />
       </div>
 
-      <div className="relative mx-auto min-h-screen max-w-7xl px-4 pb-16 pt-28 sm:px-8">
+      <div className="relative mx-auto min-h-screen max-w-7xl px-4 pb-16 pt-28 sm:px-6">
         <motion.div
           variants={heroVariants}
           initial="hidden"
@@ -298,7 +307,10 @@ export default function CaseStudiesClient() {
         </motion.div>
 
         <Reveal delay={0.2}>
-        <motion.div layout className="mt-10 flex flex-col gap-7">
+        <motion.div
+          layout
+          className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-7"
+        >
           <AnimatePresence mode="popLayout">
             {filtered.map((study) => (
               <CaseStudyCard

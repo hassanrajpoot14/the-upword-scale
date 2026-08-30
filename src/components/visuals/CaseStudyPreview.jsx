@@ -3,7 +3,7 @@
 /**
  * Lightweight code-driven UI preview inside device frames (no stock photos).
  */
-export default function CaseStudyPreview({ study }) {
+export default function CaseStudyPreview({ study, className = "" }) {
   const tone = study.accentColor || "emerald";
   const accent =
     tone === "violet"
@@ -20,13 +20,15 @@ export default function CaseStudyPreview({ study }) {
   const secondary = study.results?.[1];
 
   return (
-    <div className="relative flex h-full w-full flex-col bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-3 sm:p-4">
+    <div
+      className={`relative flex h-full w-full min-w-0 flex-col overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-3 sm:p-4 ${className}`}
+    >
       <div
         aria-hidden
         className={`pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gradient-to-br ${accent} opacity-30 blur-2xl`}
       />
-      <div className="relative z-10 mb-3 flex items-center justify-between gap-2">
-        <div className="min-w-0">
+      <div className="relative z-10 mb-3 flex min-w-0 items-center justify-between gap-2">
+        <div className="min-w-0 flex-1">
           <p className="truncate text-[9px] font-semibold uppercase tracking-widest text-slate-500">
             {study.client}
           </p>
@@ -34,30 +36,32 @@ export default function CaseStudyPreview({ study }) {
             {study.category}
           </p>
         </div>
-        <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[9px] font-semibold text-emerald-300">
+        <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[9px] font-semibold text-emerald-300">
           <span className="h-1 w-1 animate-pulse rounded-full bg-emerald-400" />
           Live
         </span>
       </div>
 
-      <div className="relative z-10 grid flex-1 grid-cols-2 gap-2">
-        <div className="rounded-lg border border-white/10 bg-white/5 p-2.5">
-          <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-500">
+      <div className="relative z-10 grid min-w-0 flex-1 grid-cols-2 gap-2">
+        <div className="min-w-0 overflow-hidden rounded-lg border border-white/10 bg-white/5 p-2.5">
+          <p className="truncate text-[8px] font-semibold uppercase tracking-wider text-slate-500">
             {primary?.label || "Impact"}
           </p>
-          <p className={`mt-1 bg-gradient-to-r ${accent} bg-clip-text text-lg font-extrabold tracking-tight text-transparent sm:text-xl`}>
+          <p
+            className={`mt-1 truncate bg-gradient-to-r ${accent} bg-clip-text text-lg font-extrabold tracking-tight text-transparent sm:text-xl`}
+          >
             {primary?.value || "—"}
           </p>
         </div>
-        <div className="rounded-lg border border-white/10 bg-white/5 p-2.5">
-          <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-500">
+        <div className="min-w-0 overflow-hidden rounded-lg border border-white/10 bg-white/5 p-2.5">
+          <p className="truncate text-[8px] font-semibold uppercase tracking-wider text-slate-500">
             {secondary?.label || "Result"}
           </p>
-          <p className="mt-1 text-lg font-extrabold tracking-tight text-white sm:text-xl">
+          <p className="mt-1 truncate text-lg font-extrabold tracking-tight text-white sm:text-xl">
             {secondary?.value || "—"}
           </p>
         </div>
-        <div className="col-span-2 rounded-lg border border-white/10 bg-white/[0.04] p-2.5">
+        <div className="col-span-2 min-w-0 overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] p-2.5">
           <div className="mb-2 flex items-end gap-1">
             {[40, 65, 48, 82, 70, 95, 88].map((h, i) => (
               <span

@@ -79,7 +79,7 @@ export default function TechIconRow({
   if (variant === "chips") {
     return (
       <ul
-        className={`flex flex-wrap gap-1.5 ${className}`}
+        className={`flex max-w-full flex-wrap gap-1.5 ${className}`}
         aria-label="Tech stack"
       >
         {items.map(({ key, Icon, label: techLabel }) => (

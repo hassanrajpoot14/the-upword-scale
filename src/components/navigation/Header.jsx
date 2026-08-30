@@ -40,17 +40,19 @@ export default function Header() {
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
       >
         <div
-          className={`flex items-center justify-between transition-[height] duration-300 ${
-            scrolled ? "h-16" : "h-20"
+          className={`flex w-full flex-nowrap items-center justify-between gap-2 transition-[height] sm:gap-3 ${
+            scrolled ? "h-16" : "h-16 sm:h-20"
           }`}
         >
-          <BrandLogo />
+          <div className="min-w-0 shrink">
+            <BrandLogo size="header" />
+          </div>
 
           <div className="hidden md:flex md:flex-1 md:justify-center">
             <NavLinks activeLayoutId="activeTab" />
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 flex-nowrap items-center gap-1.5 sm:gap-3">
             <CommandPaletteTrigger onClick={() => setOpen(true)} />
             <ThemeToggle />
             <StatusBadge compact className="hidden lg:inline-flex" />

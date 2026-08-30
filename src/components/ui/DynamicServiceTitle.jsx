@@ -69,17 +69,20 @@ export default function DynamicServiceTitle({
 
   return (
     <span
-      className={`relative inline-block max-w-full align-bottom ${className}`}
+      className={`relative block w-full align-bottom sm:inline-block sm:w-auto sm:max-w-full ${className}`}
       aria-live="polite"
       aria-atomic="true"
     >
-      {/* Reserve width for longest title so layout doesn't shift */}
-      <span aria-hidden className="invisible whitespace-nowrap select-none">
+      {/* Reserve width for longest title on sm+ so layout doesn't shift */}
+      <span aria-hidden className="invisible hidden select-none whitespace-nowrap sm:inline">
         {longestTitle}
       </span>
 
+      {/* Reserve one line of height on mobile without horizontal overflow */}
+      <span aria-hidden className="block min-h-[1.15em] sm:hidden" />
+
       <span
-        className="absolute left-0 top-0 whitespace-nowrap"
+        className="absolute left-0 top-0 w-full max-w-full whitespace-nowrap sm:w-auto"
         aria-hidden={false}
       >
         <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 bg-clip-text text-transparent">

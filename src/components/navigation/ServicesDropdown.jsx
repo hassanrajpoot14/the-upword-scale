@@ -89,6 +89,7 @@ export default function ServicesDropdown({
   variant = "desktop",
   isActive = false,
   activeLayoutId,
+  inverted = false,
 }) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
@@ -149,9 +150,17 @@ export default function ServicesDropdown({
     onLinkClick?.();
   };
 
-  const triggerClassName = `relative inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium transition-colors duration-200 hover:text-emerald-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 ${
+  const triggerClassName = `relative inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 ${
     isInline ? "w-full" : ""
-  } ${isActive || open ? "text-emerald-600" : "text-slate-700 dark:text-slate-300"} ${linkClassName}`;
+  } ${
+    inverted
+      ? isActive || open
+        ? "text-emerald-400 hover:text-emerald-300"
+        : "text-white hover:text-emerald-400"
+      : isActive || open
+        ? "text-emerald-600 hover:text-emerald-600"
+        : "text-slate-700 dark:text-slate-300 hover:text-emerald-600"
+  } ${linkClassName}`;
 
   const itemClassName =
     "group flex items-start gap-3 rounded-xl p-3 transition-all hover:bg-slate-900/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500";
@@ -203,24 +212,40 @@ export default function ServicesDropdown({
               transition={SPRING.snappy}
               className="overflow-hidden"
             >
-              <ul className="mt-1 space-y-0.5 border-l border-slate-200 pl-2 dark:border-slate-700">
+              <ul
+                className={`mt-1 space-y-0.5 border-l pl-2 ${
+                  inverted ? "border-white/20" : "border-slate-200 dark:border-slate-700"
+                }`}
+              >
                 {SERVICE_ITEMS.map(({ href, label, description, Icon }) => (
                   <li key={href} role="none">
                     <Link
                       href={href}
                       role="menuitem"
                       onClick={handleLinkClick}
-                      className="group flex items-start gap-3 rounded-xl p-3 text-left transition-all hover:bg-slate-100 dark:hover:bg-slate-900/80"
+                      className={`group flex items-start gap-3 rounded-xl p-3 text-left transition-all ${
+                        inverted
+                          ? "hover:bg-white/10"
+                          : "hover:bg-slate-100 dark:hover:bg-slate-900/80"
+                      }`}
                     >
                       <Icon
-                        className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600"
+                        className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400"
                         strokeWidth={2}
                       />
                       <span className="min-w-0">
-                        <span className="block text-base font-medium text-slate-800 dark:text-slate-100">
+                        <span
+                          className={`block text-base font-medium ${
+                            inverted ? "text-white" : "text-slate-800 dark:text-slate-100"
+                          }`}
+                        >
                           {label}
                         </span>
-                        <span className="mt-0.5 block text-sm leading-snug text-slate-500 dark:text-slate-400">
+                        <span
+                          className={`mt-0.5 block text-sm leading-snug ${
+                            inverted ? "text-slate-300" : "text-slate-500 dark:text-slate-400"
+                          }`}
+                        >
                           {description}
                         </span>
                       </span>
@@ -232,7 +257,9 @@ export default function ServicesDropdown({
                     href="/services"
                     role="menuitem"
                     onClick={handleLinkClick}
-                    className="mt-1 flex items-center gap-1.5 border-t border-slate-200 px-3 py-3 text-sm font-semibold text-emerald-700 dark:border-slate-700 dark:text-emerald-400"
+                    className={`mt-1 flex items-center gap-1.5 border-t px-3 py-3 text-sm font-semibold text-emerald-400 ${
+                      inverted ? "border-white/20" : "border-slate-200 dark:border-slate-700"
+                    }`}
                   >
                     Explore All Services & Solutions
                     <ArrowRight className="h-3.5 w-3.5" />

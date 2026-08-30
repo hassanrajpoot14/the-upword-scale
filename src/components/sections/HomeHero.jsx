@@ -27,7 +27,7 @@ export default function HomeHero() {
   }, []);
 
   return (
-    <section className="relative isolate min-h-[100svh] overflow-hidden bg-[#07110f]">
+    <section className="relative isolate overflow-hidden bg-[#07110f] lg:min-h-[100svh]">
       {/* Ambient background — no canvas here */}
       <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B1120] via-[#07110f] to-[#0B1120]" />
@@ -41,7 +41,7 @@ export default function HomeHero() {
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#F8FAF9] to-transparent" />
       </div>
 
-      <div className="relative z-10 mx-auto grid min-h-[100svh] max-w-7xl grid-cols-1 items-center gap-12 px-4 pb-28 pt-28 sm:px-8 lg:grid-cols-2">
+      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-start gap-6 px-4 pb-16 pt-24 sm:gap-10 sm:px-8 sm:pb-24 sm:pt-28 lg:min-h-[100svh] lg:grid-cols-2 lg:items-center lg:gap-12 lg:pb-28">
         {/* Left — copy */}
         <motion.div
           variants={containerVariants}
@@ -58,25 +58,18 @@ export default function HomeHero() {
 
           <motion.h1
             variants={itemVariants}
-            className="mt-5 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-[3.25rem] lg:leading-[1.05] xl:text-7xl"
+            className="mt-3 text-3xl font-extrabold leading-snug tracking-tight sm:mt-5 sm:text-5xl sm:leading-[1.08] md:text-6xl lg:text-[3.25rem] lg:leading-[1.05] xl:text-7xl"
           >
-            <span className="heading-gradient-dark">Elite</span>{" "}
-            <DynamicServiceTitle
-              titles={[
-                "Web Architecture",
-                "AI Optimization",
-                "SEO Strategy",
-                "Brand Identity",
-                "App Engineering",
-                "Growth Systems",
-              ]}
-            />{" "}
+            <span className="heading-gradient-dark">Elite</span>
+            <span className="block py-0.5 sm:inline sm:px-1">
+              <DynamicServiceTitle />
+            </span>
             <span className="heading-gradient-dark">at Scale</span>
           </motion.h1>
 
           <motion.p
             variants={itemVariants}
-            className="mt-6 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg"
+            className="mt-4 max-w-xl text-base leading-relaxed text-slate-300 sm:mt-6 sm:text-lg"
           >
             High-performance architectures and premium interfaces engineered to
             turn ambitious brands into category leaders.
@@ -84,7 +77,7 @@ export default function HomeHero() {
 
           <motion.div
             variants={itemVariants}
-            className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+            className="mt-6 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center"
           >
             <BookCallButton
               magnetic
@@ -118,7 +111,7 @@ export default function HomeHero() {
         </motion.div>
 
         {/* Right — bounded 3D canvas */}
-        <div className="relative z-0 h-[380px] w-full min-w-0 md:h-[500px] lg:h-[500px]">
+        <div className="relative z-0 mt-6 h-[240px] w-full min-w-0 sm:mt-8 sm:h-[320px] md:mt-0 md:h-[420px] lg:h-[500px]">
           <div className="pointer-events-none absolute -inset-4 rounded-3xl bg-emerald-500/5 blur-2xl" />
           <HeroCanvas className="h-full w-full overflow-hidden rounded-2xl" />
         </div>

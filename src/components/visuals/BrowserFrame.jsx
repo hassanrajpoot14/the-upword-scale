@@ -12,7 +12,7 @@ export default function BrowserFrame({
   aspectRatio = "aspect-[16/10]",
 }) {
   return (
-    <div className={`group relative [perspective:1200px] ${className}`}>
+    <div className={`group relative w-full [perspective:1200px] ${className}`}>
       <div className="origin-center overflow-hidden rounded-2xl border border-slate-800 light:border-slate-300/80 bg-slate-900/90 light:bg-slate-100/95 shadow-lg shadow-slate-950/20 transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-xl group-hover:shadow-emerald-500/10 dark:border-slate-800 dark:bg-slate-900/90 [transform-style:preserve-3d] group-hover:[transform:rotateX(2deg)_rotateY(-2deg)]">
         <div className="flex items-center gap-2 border-b border-slate-800/80 bg-slate-950/90 px-3 py-2.5 light:border-slate-200 light:bg-slate-100/90 dark:border-slate-800 dark:bg-slate-950/90">
           <span
@@ -35,9 +35,9 @@ export default function BrowserFrame({
         </div>
 
         <div
-          className={`${aspectRatio} overflow-hidden bg-slate-950 ${contentClassName}`}
+          className={`relative w-full overflow-hidden bg-slate-950 ${aspectRatio} ${contentClassName}`}
         >
-          {children}
+          <div className="h-full w-full min-w-0">{children}</div>
         </div>
       </div>
     </div>

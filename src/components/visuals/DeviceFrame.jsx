@@ -54,13 +54,17 @@ export default function DeviceFrame({
           transformPerspective: 900,
           transformStyle: "preserve-3d",
         }}
-        className={`relative mx-auto w-[58%] max-w-[160px] ${className}`}
+        className={`relative mx-auto w-[58%] max-w-[160px] min-w-0 ${className}`}
       >
         <div className="overflow-hidden rounded-[1.35rem] border-[3px] border-slate-800 bg-slate-900 shadow-xl shadow-slate-900/20">
           <div className="flex justify-center bg-slate-900 py-1.5">
             <span className="h-1 w-10 rounded-full bg-slate-700" />
           </div>
-          <div className="aspect-[9/16] overflow-hidden bg-slate-950">{children}</div>
+          <div className="aspect-[9/16] w-full overflow-hidden bg-slate-950">
+            <div className="h-full w-full min-w-0 [&>*]:h-full [&>*]:w-full [&_img]:h-auto [&_img]:w-full [&_img]:object-cover">
+              {children}
+            </div>
+          </div>
           <div className="flex justify-center bg-slate-900 py-2">
             <span className="h-1 w-8 rounded-full bg-slate-700" />
           </div>
@@ -93,7 +97,11 @@ export default function DeviceFrame({
             </span>
           </div>
         </div>
-        <div className="aspect-[16/10] overflow-hidden bg-slate-950">{children}</div>
+        <div className="aspect-[16/10] w-full overflow-hidden bg-slate-950">
+          <div className="h-full w-full min-w-0 [&>*]:h-full [&>*]:w-full [&_img]:h-auto [&_img]:w-full [&_img]:object-cover">
+            {children}
+          </div>
+        </div>
       </div>
     </motion.div>
   );
