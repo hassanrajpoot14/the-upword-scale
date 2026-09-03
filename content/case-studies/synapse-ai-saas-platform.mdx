@@ -1,0 +1,52 @@
+---
+slug: "synapse-ai-saas-platform"
+title: "Predictive Analytics Engine for FinTech"
+client: "Synapse FinTech"
+industry: "FinTech"
+category: "AI Integration"
+tagline: "Custom LLM-powered risk scoring and anomaly detection at scale."
+problem: |
+    12,000 daily reviews by 22 analysts with a 6.2% false-positive rate.
+heroMetric:
+  value: |
+      <200ms
+  label: "Risk Score Latency"
+liveUrl: |
+    https://synapse.finance
+challenge: |
+    Synapse was manually reviewing 12,000 daily transactions for fraud and compliance flags — a process taking 22 analysts and generating $1.8M in annual payroll costs, with a 6.2% false-positive rate causing legitimate transaction blocks.
+solution: |
+    We built a custom fine-tuned model on anonymized transaction data using a private LLM pipeline on AWS SageMaker, paired with a real-time vector similarity engine to flag anomalies within 200ms. The system integrates directly into their existing Plaid and Stripe infrastructure.
+architecture:
+  - id: "edge"
+    label: "Ingest Bus"
+    detail: "Plaid + Stripe hooks"
+  - id: "app"
+    label: "Risk Console"
+    detail: "Analyst UI"
+  - id: "api"
+    label: "SageMaker LLM"
+    detail: "Fine-tuned scoring"
+  - id: "data"
+    label: "Vector Store"
+    detail: "Anomaly similarity"
+results:
+  - label: "False Positive Rate"
+    value: |
+        0.4% (↓94%)
+  - label: "Review Time per Transaction"
+    value: |
+        < 200ms
+  - label: "Analyst Headcount Reduction"
+    value: "18 of 22"
+  - label: "Annual Savings"
+    value: "$1.4M"
+testimonial:
+  quote: "Our compliance department went from a liability to a competitive advantage. The speed and accuracy is unlike anything we've seen."
+  author: "Rachel Osei"
+  role: |
+      VP Engineering, Synapse FinTech
+accentColor: "emerald"
+tags: ["LLM Fine-tuning", "SageMaker", "FinTech", "Fraud Detection", "Real-time"]
+stack: ["typescript", "nodejs", "postgresql", "docker"]
+---

@@ -1,0 +1,53 @@
+---
+slug: "nexaflow-ai-automation"
+title: |
+    Cutting Support Overhead by 74%
+client: "NexaFlow SaaS"
+industry: "B2B SaaS"
+category: "AI Integration"
+tagline: "End-to-end AI agent deployment for a Series-B SaaS platform."
+problem: |
+    4,200+ weekly support tickets with 18-hour response times and rising churn.
+heroMetric:
+  value: |
+      74%
+  label: "Ticket Deflection"
+liveUrl: |
+    https://nexaflow.app
+challenge: |
+    NexaFlow's support team was drowning in 4,200+ weekly tickets, 60% of which were repetitive billing and onboarding queries. Response times exceeded 18 hours, leading to a measurable spike in churn.
+solution: |
+    We engineered a Retrieval-Augmented Generation (RAG) AI agent using OpenAI GPT-4o and a Pinecone vector database, trained on 8 years of support documentation. The agent was embedded natively into their dashboard, handling queries, processing refunds, and triggering onboarding flows autonomously.
+architecture:
+  - id: "edge"
+    label: "Dashboard Embed"
+    detail: "In-product agent UI"
+  - id: "app"
+    label: "React Client"
+    detail: "Realtime chat surface"
+  - id: "api"
+    label: "RAG Orchestrator"
+    detail: "GPT-4o + tools"
+  - id: "data"
+    label: "Pinecone + Postgres"
+    detail: "Docs + ticket state"
+results:
+  - label: "Ticket Deflection Rate"
+    value: |
+        74%
+  - label: "Avg. Response Time"
+    value: |
+        < 30s
+  - label: "Annual Support Cost Saved"
+    value: "$210K"
+  - label: "CSAT Score Lift"
+    value: "+22 pts"
+testimonial:
+  quote: "The AI agent handles everything our tier-1 team used to spend 40 hours a week on. It's transformed our ops."
+  author: "James Harrington"
+  role: |
+      CTO, NexaFlow SaaS
+accentColor: "emerald"
+tags: ["RAG", "OpenAI", "Pinecone", "Customer Support", "Automation"]
+stack: ["react", "typescript", "nodejs", "postgresql"]
+---

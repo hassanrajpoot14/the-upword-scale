@@ -1,7 +1,9 @@
 import { CONTACT_INFO } from "../src/data/contactInfo";
 import { SERVICES_DATA } from "../src/data/serviceData";
-import { CASE_STUDIES } from "../src/data/caseStudiesData";
-import { BLOG_POSTS } from "../src/data/blogData";
+import {
+  getAllBlogPosts,
+  getAllCaseStudies,
+} from "../src/lib/content";
 
 const baseUrl = CONTACT_INFO.siteUrl.replace(/\/$/, "");
 
@@ -29,14 +31,14 @@ export default function sitemap() {
     priority: 0.7,
   }));
 
-  const caseStudyRoutes = CASE_STUDIES.map((study) => ({
+  const caseStudyRoutes = getAllCaseStudies().map((study) => ({
     url: `${baseUrl}/case-studies/${study.slug}`,
     lastModified: now,
     changeFrequency: "monthly",
     priority: 0.7,
   }));
 
-  const blogRoutes = BLOG_POSTS.map((post) => ({
+  const blogRoutes = getAllBlogPosts().map((post) => ({
     url: `${baseUrl}/blogs/${post.slug}`,
     lastModified: now,
     changeFrequency: "weekly",

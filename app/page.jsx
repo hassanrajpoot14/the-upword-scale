@@ -1,17 +1,16 @@
 import dynamic from "next/dynamic";
+import HomeHero from "../src/components/sections/HomeHero";
 import { buildPageMetadata } from "../src/lib/og/metadata";
 
-const HomePageClient = dynamic(
-  () => import("../src/components/sections/HomePageClient"),
+const HomeBelowFold = dynamic(
+  () => import("../src/components/sections/HomeBelowFold"),
   {
     loading: () => (
-      <div className="min-h-screen bg-[#07110f]" aria-hidden>
-        <div className="mx-auto flex min-h-[100svh] max-w-7xl items-center px-4">
-          <div className="h-12 w-72 animate-pulse rounded-xl bg-white/10" />
-        </div>
+      <div className="bg-[#F8FAF9] py-24" aria-hidden>
+        <div className="mx-auto h-8 w-40 animate-pulse rounded bg-slate-200" />
       </div>
     ),
-  }
+  },
 );
 
 export const metadata = buildPageMetadata({
@@ -22,5 +21,10 @@ export const metadata = buildPageMetadata({
 });
 
 export default function HomePage() {
-  return <HomePageClient />;
+  return (
+    <>
+      <HomeHero />
+      <HomeBelowFold />
+    </>
+  );
 }

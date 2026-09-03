@@ -287,11 +287,30 @@ function NewsletterCard() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle");
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    if (!email.trim() || !email.includes("@")) return;
-    setStatus("done");
-    setEmail("");
+    if (!email.trim() || !email.includes("@") || status === "submitting") return;
+
+    setStatus("submitting");
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (response.ok && result.success) {
+        setStatus("done");
+        setEmail("");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -351,9 +370,16 @@ function NewsletterCard() {
           </div>
           <button
             type="submit"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_0_24px_rgba(16,185,129,0.45)] transition hover:bg-emerald-400 hover:shadow-[0_0_32px_rgba(16,185,129,0.55)]"
+            disabled={status === "submitting"}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_0_24px_rgba(16,185,129,0.45)] transition hover:bg-emerald-400 hover:shadow-[0_0_32px_rgba(16,185,129,0.55)] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {status === "done" ? "You're on the list" : "Subscribe"}
+            {status === "done"
+              ? "You're on the list"
+              : status === "submitting"
+                ? "Subscribing…"
+                : status === "error"
+                  ? "Try again"
+                  : "Subscribe"}
             <ArrowRight className="h-4 w-4" />
           </button>
         </form>

@@ -205,29 +205,18 @@ export default function ContactForm() {
     setStatus("submitting");
     setErrorMessage("");
 
-    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
     const service = SERVICES.find((s) => s.id === serviceId);
     const budget = BUDGETS.find((b) => b.id === budgetId);
 
-    if (!accessKey) {
-      setStatus("error");
-      setErrorMessage(
-        `Form is not configured yet. Please email us at ${CONTACT_INFO.email}.`
-      );
-      return;
-    }
-
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
         body: JSON.stringify({
-          access_key: accessKey,
           subject: `Project Planner: ${name} — ${service?.title} (${budget?.label})`,
-          from_name: "The Upward Scale Website",
           name,
           email,
           service: service?.title,
@@ -236,20 +225,22 @@ export default function ContactForm() {
         }),
       });
 
-      const result = await response.json();
-      if (response.status === 200 || result.success) {
+      const result = await response.json().catch(() => ({}));
+      if (response.ok && result.success) {
         setStatus("success");
       } else {
         setStatus("error");
         setErrorMessage(
-          result.message || "An error occurred while submitting your request."
+          result.error ||
+            result.message ||
+            `An error occurred. Email us at ${CONTACT_INFO.email}.`,
         );
       }
     } catch (err) {
       console.error(err);
       setStatus("error");
       setErrorMessage(
-        "Unable to connect to the server. Please check your network and try again."
+        "Unable to connect to the server. Please check your network and try again.",
       );
     }
   };

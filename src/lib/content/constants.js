@@ -1,10 +1,10 @@
-/**
- * Case study catalog — loaded from MDX snapshots.
- * Edit files in content/case-studies/*.mdx then run: npm run content:sync
- */
-import studies from "./generated/case-studies.json";
-
-export const CASE_STUDIES = studies;
+export const BLOG_CATEGORIES = [
+  "All",
+  "Architecture",
+  "Next.js",
+  "DevOps & CI/CD",
+  "Performance",
+];
 
 export const CASE_STUDY_CATEGORIES = [
   "All",
@@ -15,7 +15,6 @@ export const CASE_STUDY_CATEGORIES = [
   "App Development",
 ];
 
-/** Unique stack keys used across case studies for filter dropdowns. */
 export const CASE_STUDY_STACK_FILTERS = [
   "all",
   "nextjs",

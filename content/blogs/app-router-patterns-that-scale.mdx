@@ -1,0 +1,25 @@
+---
+slug: "app-router-patterns-that-scale"
+title: "App Router Patterns That Scale Past MVP"
+excerpt: |
+    Server Components, parallel routes, and streaming boundaries — production patterns we use to keep Next.js apps fast as product surface grows.
+author:
+  name: "Alex Thorne"
+  role: "Lead Systems Architect"
+  initials: "AT"
+date: |
+    July 11, 2026
+readTime: "5 min read"
+category: "Next.js"
+tags: ["#NextJS", "#RSC", "#Streaming"]
+accent: "sky"
+stack: ["nextjs", "react", "typescript"]
+---
+
+<p>The App Router is more than a folder convention — it is a rendering contract. Teams that treat every page as a client island recreate the bundle weight they hoped to escape. At scale, the winning pattern is intentional server/client boundaries.</p>
+      <h2>1. Default to Server Components</h2>
+      <p>Fetch data close to the source. Keep interactive islands small. Push state up only when the UX truly needs it.</p>
+      <h2>2. Stream Critical UI First</h2>
+      <p>Wrap slow segments in Suspense so the shell paints immediately. Users perceive speed even when secondary panels are still resolving.</p>
+      <h2>3. Prefer Parallel Routes for Dashboards</h2>
+      <p>Independent panes that load on their own schedule keep complex product UIs responsive without waterfall requests.</p>

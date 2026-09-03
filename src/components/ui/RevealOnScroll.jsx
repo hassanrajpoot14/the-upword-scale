@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { SPRING, staggerContainer, revealChild } from "../motion/springs";
+import { usePrefersReducedMotion } from "../motion/reducedMotion";
 
 const PRESETS = {
   fadeUp: {
@@ -45,7 +46,15 @@ export default function RevealOnScroll({
   variants,
   staggerChild = false,
 }) {
-  const activeVariants = variants ?? (staggerChild ? revealChild : PRESETS[preset]);
+  const reduceMotion = usePrefersReducedMotion();
+  const Tag = as === "div" ? "div" : as;
+
+  if (reduceMotion) {
+    return <Tag className={className}>{children}</Tag>;
+  }
+
+  const activeVariants =
+    variants ?? (staggerChild ? revealChild : PRESETS[preset]);
   const MotionTag = motion[as] || motion.div;
 
   return (
@@ -77,6 +86,12 @@ export function StaggerReveal({
   margin = "-60px",
   threshold = 0.08,
 }) {
+  const reduceMotion = usePrefersReducedMotion();
+
+  if (reduceMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       initial="hidden"

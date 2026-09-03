@@ -1,0 +1,27 @@
+---
+slug: "zero-downtime-deploys-docker-github-actions"
+title: |
+    Zero-Downtime Deploys with Docker & GitHub Actions
+excerpt: |
+    Blue-green releases, health checks, and rollback gates — a practical CI/CD blueprint for shipping Next.js without darkening production.
+author:
+  name: "Jordan Hale"
+  role: "Platform Engineer"
+  initials: "JH"
+date: |
+    July 09, 2026
+readTime: "5 min read"
+category: |
+    DevOps & CI/CD
+tags: ["#Docker", "#CI/CD", "#GitHub"]
+accent: "violet"
+stack: ["docker", "nodejs", "typescript"]
+---
+
+<p>Shipping fast is worthless if every release risks an outage. Zero-downtime delivery is a pipeline design problem: identical artifacts, traffic shifting, and automated health gates.</p>
+      <h2>1. Containerize Once</h2>
+      <p>Build a single Docker image per commit. Promote that image through staging and production so environments never diverge.</p>
+      <h2>2. Gate on Healthchecks</h2>
+      <p>Refuse to cut traffic until <code>/api/health</code> returns green for consecutive intervals. Failed checks abort the swap.</p>
+      <h2>3. Keep Instant Rollbacks</h2>
+      <p>Retain the previous revision warm. One command restores traffic while you triage the bad deploy offline.</p>
