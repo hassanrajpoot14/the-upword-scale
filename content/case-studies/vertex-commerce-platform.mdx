@@ -1,0 +1,53 @@
+---
+slug: "vertex-commerce-platform"
+title: "Headless Commerce at 99/100 Lighthouse"
+client: "Vertex Commerce"
+industry: "E-Commerce"
+category: "Web Architecture"
+tagline: "A performance-obsessed re-architecture of a $40M e-commerce brand."
+problem: "3.8s loads and failing Core Web Vitals draining ~$1.2M/yr in abandoned carts."
+heroMetric:
+  value: |
+      +38%
+  label: "Conversion Rate"
+liveUrl: |
+    https://vertex.shop
+challenge: |
+    Vertex's legacy Shopify theme was clocking 3.8s load times, a 42 LCP score, and was failing Core Web Vitals on 78% of product pages — directly costing them an estimated $1.2M in annual revenue from abandoned carts.
+solution: |
+    We migrated to a headless Next.js 16 + Shopify Storefront API architecture with Turbopack compilation, next/image optimization, streaming server components, and CDN edge caching via Vercel. All 3,200 product pages were statically generated at build time with ISR for inventory freshness.
+architecture:
+  - id: "edge"
+    label: "Edge CDN"
+    detail: "Global cache + ISR"
+  - id: "app"
+    label: "Next.js 16"
+    detail: "RSC + streaming"
+  - id: "api"
+    label: "Storefront API"
+    detail: "Shopify headless"
+  - id: "data"
+    label: "Catalog ISR"
+    detail: |
+        3,200 product pages
+results:
+  - label: "Lighthouse Score"
+    value: "99/100"
+  - label: "LCP"
+    value: |
+        < 300ms
+  - label: "Conversion Rate Lift"
+    value: |
+        +38%
+  - label: "Bounce Rate Reduction"
+    value: |
+        -41%
+testimonial:
+  quote: "Our site went from embarrassingly slow to best-in-class. The conversion lift alone paid for the project in 11 days."
+  author: "Sofia Mendes"
+  role: |
+      CEO, Vertex Commerce
+accentColor: "violet"
+tags: ["Next.js 16", "Headless Shopify", "Turbopack", "ISR", "Edge CDN"]
+stack: ["nextjs", "react", "typescript", "tailwind"]
+---

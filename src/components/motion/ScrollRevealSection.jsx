@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { SPRING } from "./springs";
+import { usePrefersReducedMotion } from "./reducedMotion";
 
 /**
  * One-shot viewport reveal with weighted spring physics.
@@ -12,6 +13,13 @@ export default function ScrollRevealSection({
   as = "section",
   delay = 0,
 }) {
+  const reduceMotion = usePrefersReducedMotion();
+  const Tag = as === "section" ? "section" : as;
+
+  if (reduceMotion) {
+    return <Tag className={className}>{children}</Tag>;
+  }
+
   const MotionTag = motion[as] || motion.section;
 
   return (

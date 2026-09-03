@@ -1,0 +1,25 @@
+---
+slug: "edge-caching-sub-second-global-delivery"
+title: "Edge Caching Strategies for Sub-Second Global Delivery"
+excerpt: |
+    ISR, CDN invalidation, and cache-control discipline — how we keep CMS-heavy surfaces fast without nightly full rebuilds.
+author:
+  name: "Priya Nair"
+  role: "Performance Engineer"
+  initials: "PN"
+date: |
+    July 07, 2026
+readTime: "5 min read"
+category: "Performance"
+tags: ["#Edge", "#ISR", "#CDN"]
+accent: "sky"
+stack: ["nextjs", "react", "typescript"]
+---
+
+<p>Global audiences expect local speed. Edge caching is how you deliver it without multi-region complexity — but only if invalidation and revalidation are intentional.</p>
+      <h2>1. Prefer Stale-While-Revalidate</h2>
+      <p>Serve cached HTML instantly while regenerating in the background. Users never wait for a cold rebuild.</p>
+      <h2>2. Scope Cache Keys Tightly</h2>
+      <p>Fragment by locale, auth state, and experiment. Over-broad keys create pollution; over-narrow keys waste PoP capacity.</p>
+      <h2>3. Automate Invalidation on Publish</h2>
+      <p>Wire CMS webhooks to purge only affected paths. Full-cache flushes are a last resort, not a habit.</p>

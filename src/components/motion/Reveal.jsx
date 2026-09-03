@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { usePrefersReducedMotion } from "./reducedMotion";
 
 const DIRECTION_OFFSET = {
   up: { x: 0, y: 30 },
@@ -17,8 +18,18 @@ export default function Reveal({
   className = "",
   as = "div",
 }) {
+  const reduceMotion = usePrefersReducedMotion();
   const offset = DIRECTION_OFFSET[direction] ?? DIRECTION_OFFSET.up;
   const MotionTag = motion[as] || motion.div;
+
+  if (reduceMotion) {
+    const Tag = as === "div" ? "div" : as;
+    return (
+      <Tag className={[width, className].filter(Boolean).join(" ")}>
+        {children}
+      </Tag>
+    );
+  }
 
   return (
     <MotionTag

@@ -1,0 +1,51 @@
+---
+slug: "trailr-app-engineering"
+title: "From Concept to 50K Users in 90 Days"
+client: "Trailr App"
+industry: "Fitness / Consumer"
+category: "App Development"
+tagline: "Cross-platform mobile engineering for a fitness tracking startup."
+problem: |
+    Seed pitch needed a production app in 90 days — GPS, social, and Stripe included.
+heroMetric:
+  value: "50K+"
+  label: "Users in 90 Days"
+liveUrl: |
+    https://trailr.app
+challenge: |
+    Trailr needed a production-ready cross-platform app in 90 days for their seed funding pitch. They had a design mockup and no technical team — and required GPS tracking, social features, and Stripe subscriptions from day one.
+solution: |
+    We engineered the full app in React Native with Expo, integrating Mapbox for GPS trail rendering, a custom social feed with optimistic UI updates, biometric authentication, and Stripe billing. Zero crashes on TestFlight launch. Published to both stores in 86 days.
+architecture:
+  - id: "edge"
+    label: "App Stores"
+    detail: "iOS + Android"
+  - id: "app"
+    label: "React Native"
+    detail: "Expo + Mapbox"
+  - id: "api"
+    label: "Node API"
+    detail: "Auth + social feed"
+  - id: "data"
+    label: "Postgres"
+    detail: "Users + trails"
+results:
+  - label: "App Store Rating"
+    value: "4.9★"
+  - label: "Users at 90 Days"
+    value: |
+        50,000+
+  - label: "Crash-Free Sessions"
+    value: |
+        99.97%
+  - label: "Days to Both Stores"
+    value: "86"
+testimonial:
+  quote: "They delivered a production-quality app our investors called 'the best-designed fitness app they'd seen.' We closed our seed round."
+  author: "Aiden Park"
+  role: |
+      CEO, Trailr App
+accentColor: "amber"
+tags: ["React Native", "Expo", "Mapbox", "Stripe", "iOS & Android"]
+stack: ["react", "typescript", "nodejs", "tailwind"]
+---

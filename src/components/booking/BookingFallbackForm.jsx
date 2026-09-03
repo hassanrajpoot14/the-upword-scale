@@ -34,27 +34,15 @@ export default function BookingFallbackForm({ onSuccess }) {
     setStatus("submitting");
     setErrorMessage("");
 
-    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
-
-    if (!accessKey) {
-      setStatus("error");
-      setErrorMessage(
-        `Scheduling is being configured. Email us directly at ${CONTACT_INFO.email}.`
-      );
-      return;
-    }
-
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
         body: JSON.stringify({
-          access_key: accessKey,
           subject: `Booking Request: ${name.trim()} — ${projectType}`,
-          from_name: "The Upward Scale Website",
           name: name.trim(),
           email: email.trim(),
           project_type: projectType,
@@ -62,21 +50,23 @@ export default function BookingFallbackForm({ onSuccess }) {
         }),
       });
 
-      const result = await response.json();
+      const result = await response.json().catch(() => ({}));
 
-      if (response.status === 200 || result.success) {
+      if (response.ok && result.success) {
         setStatus("success");
         onSuccess?.();
       } else {
         setStatus("error");
         setErrorMessage(
-          result.message || "Something went wrong. Please try again."
+          result.error ||
+            result.message ||
+            `Something went wrong. Email us at ${CONTACT_INFO.email}.`,
         );
       }
     } catch {
       setStatus("error");
       setErrorMessage(
-        "Unable to reach the server. Check your connection and try again."
+        "Unable to reach the server. Check your connection and try again.",
       );
     }
   };
