@@ -62,11 +62,8 @@ export default function Footer() {
       <div className="relative mx-auto max-w-7xl px-5 py-14 sm:px-8 lg:py-16">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-xl min-w-0">
-            <div className="light:block dark:hidden">
-              <BrandLogo tone="light" />
-            </div>
-            <div className="hidden dark:block">
-              <BrandLogo tone="dark" />
+            <div className="min-w-0">
+              <BrandLogo tone="auto" />
             </div>
             <p className={`mt-4 leading-relaxed ${footerMutedClass}`}>
               {CONTACT_INFO.studioTagline}

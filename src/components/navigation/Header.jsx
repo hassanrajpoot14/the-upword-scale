@@ -45,7 +45,7 @@ export default function Header() {
           }`}
         >
           <div className="min-w-0 shrink">
-            <BrandLogo size="header" />
+            <BrandLogo size="header" tone="auto" />
           </div>
 
           <div className="hidden md:flex md:flex-1 md:justify-center">
@@ -60,7 +60,7 @@ export default function Header() {
             <StatusBadge compact className="hidden lg:inline-flex" />
             <BookCallButton
               magnetic
-              className={`hidden md:inline-flex ${buttonBaseStyles} ${buttonVariantStyles.primary}`}
+              className={`${buttonBaseStyles} ${buttonVariantStyles.primary} px-3.5 py-2 text-xs sm:px-5 sm:py-2.5 sm:text-sm`}
             >
               {SITE_CTAS.bookCall.label}
             </BookCallButton>
