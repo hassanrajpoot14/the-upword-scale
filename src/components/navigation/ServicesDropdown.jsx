@@ -213,7 +213,7 @@ export default function ServicesDropdown({
               className="overflow-hidden"
             >
               <ul
-                className={`mt-1 space-y-0.5 border-l pl-2 ${
+                className={`mt-1 max-h-none space-y-0.5 border-l pl-2 ${
                   inverted ? "border-white/20" : "border-slate-200 dark:border-slate-700"
                 }`}
               >
@@ -223,7 +223,7 @@ export default function ServicesDropdown({
                       href={href}
                       role="menuitem"
                       onClick={handleLinkClick}
-                      className={`group flex items-start gap-3 rounded-xl p-3 text-left transition-all ${
+                      className={`group flex items-start gap-2.5 rounded-xl px-2.5 py-2 text-left transition-all sm:gap-3 sm:p-3 ${
                         inverted
                           ? "hover:bg-white/10"
                           : "hover:bg-slate-100 dark:hover:bg-slate-900/80"
@@ -235,14 +235,14 @@ export default function ServicesDropdown({
                       />
                       <span className="min-w-0">
                         <span
-                          className={`block text-base font-medium ${
+                          className={`block text-sm font-medium sm:text-base ${
                             inverted ? "text-white" : "text-slate-800 dark:text-slate-100"
                           }`}
                         >
                           {label}
                         </span>
                         <span
-                          className={`mt-0.5 block text-sm leading-snug ${
+                          className={`mt-0.5 block text-xs leading-snug sm:text-sm ${
                             inverted ? "text-slate-300" : "text-slate-500 dark:text-slate-400"
                           }`}
                         >
@@ -257,7 +257,7 @@ export default function ServicesDropdown({
                     href="/services"
                     role="menuitem"
                     onClick={handleLinkClick}
-                    className={`mt-1 flex items-center gap-1.5 border-t px-3 py-3 text-sm font-semibold text-emerald-400 ${
+                    className={`mt-1 flex items-center gap-1.5 border-t px-2.5 py-3 text-sm font-semibold text-emerald-400 sm:px-3 ${
                       inverted ? "border-white/20" : "border-slate-200 dark:border-slate-700"
                     }`}
                   >

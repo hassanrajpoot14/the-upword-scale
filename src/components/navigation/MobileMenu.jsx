@@ -62,48 +62,52 @@ export default function MobileMenu() {
               role="dialog"
               aria-modal="true"
               aria-label="Mobile navigation"
-              className="fixed top-0 left-0 z-[100] flex h-full w-full flex-col bg-slate-950 text-white shadow-2xl transition-transform duration-300 ease-out"
+              className="fixed inset-0 z-[100] flex h-[100dvh] max-h-[100dvh] w-full flex-col overflow-hidden bg-slate-950 text-white shadow-2xl transition-transform duration-300 ease-out"
             >
-              <div className="flex items-center justify-between px-4 pt-5 sm:px-6">
-                <BrandLogo tone="dark" onClick={closeMenu} />
+              <div className="flex shrink-0 items-center justify-between gap-3 px-5 pb-3 pt-[max(1.25rem,env(safe-area-inset-top))] sm:px-8">
+                <div className="min-w-0 flex-1">
+                  <BrandLogo size="header" tone="dark" onClick={closeMenu} />
+                </div>
                 <button
                   type="button"
                   onClick={closeMenu}
                   aria-label="Close navigation menu"
-                  className="flex h-10 w-10 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                 >
                   <X className="h-5 w-5" strokeWidth={2.25} />
                 </button>
               </div>
 
-              <div className="flex flex-1 flex-col items-center justify-center gap-10 px-6 pb-16">
-                <nav
-                  aria-label="Mobile"
-                  className="w-full max-w-sm translate-y-0 opacity-100 transition-all duration-500 ease-out"
-                >
-                  <NavLinks
-                    links={HEADER_LINKS}
-                    inverted
-                    className="flex-col items-stretch gap-1"
-                    linkClassName="justify-center py-3 text-2xl"
-                    onLinkClick={closeMenu}
-                    activeLayoutId="activeTabMobile"
-                    servicesVariant="inline"
-                  />
-                </nav>
+              <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 sm:px-8 [-webkit-overflow-scrolling:touch]">
+                <div className="mx-auto flex min-h-full w-full max-w-sm flex-col items-stretch justify-center gap-8 py-6 pb-[max(4rem,env(safe-area-inset-bottom))]">
+                  <nav
+                    aria-label="Mobile"
+                    className="w-full translate-y-0 opacity-100 transition-all duration-500 ease-out"
+                  >
+                    <NavLinks
+                      links={HEADER_LINKS}
+                      inverted
+                      className="flex-col items-stretch gap-1"
+                      linkClassName="justify-start py-3 text-2xl"
+                      onLinkClick={closeMenu}
+                      activeLayoutId="activeTabMobile"
+                      servicesVariant="inline"
+                    />
+                  </nav>
 
-                <BookCallButton
-                  onClick={closeMenu}
-                  className={`w-full max-w-xs ${buttonBaseStyles} ${buttonVariantStyles.primary} translate-y-0 opacity-100 transition-all duration-500 ease-out delay-75`}
-                >
-                  {SITE_CTAS.bookCall.label}
-                </BookCallButton>
+                  <BookCallButton
+                    onClick={closeMenu}
+                    className={`w-full ${buttonBaseStyles} ${buttonVariantStyles.primary} translate-y-0 opacity-100 transition-all duration-500 ease-out delay-75`}
+                  >
+                    {SITE_CTAS.bookCall.label}
+                  </BookCallButton>
 
-                <div className="flex items-center gap-3 sm:hidden">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                    Theme
-                  </span>
-                  <ThemeToggle />
+                  <div className="flex items-center justify-center gap-3 sm:hidden">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      Theme
+                    </span>
+                    <ThemeToggle />
+                  </div>
                 </div>
               </div>
             </div>
