@@ -8,9 +8,9 @@ export const buttonBaseStyles =
 
 export const buttonVariantStyles = {
   primary:
-    "px-6 py-2.5 bg-slate-900 text-white hover:bg-emerald-600 shadow-sm hover:shadow-md",
+    "px-6 py-2.5 bg-slate-900 text-white hover:bg-emerald-600 shadow-sm hover:shadow-md light:bg-slate-900 light:text-white light:hover:bg-emerald-600 dark:bg-emerald-500 dark:text-slate-950 dark:hover:bg-emerald-400 dark:shadow-emerald-500/20",
   secondary:
-    "px-6 py-2.5 bg-transparent text-slate-900 border border-slate-200 hover:border-emerald-600 hover:text-emerald-600",
+    "px-6 py-2.5 bg-transparent text-slate-900 border border-slate-200 hover:border-emerald-600 hover:text-emerald-600 light:text-slate-900 light:border-slate-200 dark:text-slate-100 dark:border-slate-600 dark:hover:border-emerald-400 dark:hover:text-emerald-400",
 };
 
 const MotionButton = motion.button;
