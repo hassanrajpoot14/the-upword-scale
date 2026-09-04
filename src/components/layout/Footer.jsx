@@ -30,10 +30,16 @@ const SYSTEM_STATUS = [
   { label: "Client intake", status: "Open" },
 ];
 
+const footerLinkClass =
+  "inline-flex min-h-10 items-center text-sm font-medium text-slate-700 light:text-slate-700 text-slate-300 dark:text-slate-300 transition-colors hover:text-emerald-600 light:hover:text-emerald-600 dark:hover:text-emerald-400";
+
+const footerMutedClass =
+  "text-sm text-slate-600 light:text-slate-600 text-slate-400 dark:text-slate-400";
+
 function FooterColumn({ title, children }) {
   return (
     <div>
-      <h2 className="text-xs font-bold uppercase tracking-widest text-slate-600 light:text-slate-600 text-slate-500 dark:text-slate-500">
+      <h2 className="text-xs font-bold uppercase tracking-widest text-slate-800 light:text-slate-800 text-slate-400 dark:text-slate-400">
         {title}
       </h2>
       {children}
@@ -53,16 +59,16 @@ export default function Footer() {
         }}
       />
 
-      <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-8 lg:py-16">
+      <div className="relative mx-auto max-w-7xl px-5 py-14 sm:px-8 lg:py-16">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-xl">
+          <div className="max-w-xl min-w-0">
             <div className="light:block dark:hidden">
               <BrandLogo tone="light" />
             </div>
             <div className="hidden dark:block">
               <BrandLogo tone="dark" />
             </div>
-            <p className="mt-4 text-sm leading-relaxed text-slate-600 light:text-slate-600 text-slate-400 dark:text-slate-400">
+            <p className={`mt-4 leading-relaxed ${footerMutedClass}`}>
               {CONTACT_INFO.studioTagline}
             </p>
             <StatusBadge
@@ -74,7 +80,7 @@ export default function Footer() {
 
           <BookCallButton
             magnetic
-            className="inline-flex items-center gap-2 self-start rounded-full border border-emerald-500/30 bg-emerald-500/10 px-5 py-2.5 text-sm font-semibold text-emerald-300 transition hover:border-emerald-400/50 hover:bg-emerald-500/15 hover:text-emerald-200 lg:self-auto"
+            className="inline-flex items-center gap-2 self-start rounded-full border border-emerald-600/40 light:border-emerald-600/40 border-emerald-500/30 dark:border-emerald-500/30 bg-emerald-500/15 light:bg-emerald-500/15 bg-emerald-500/10 dark:bg-emerald-500/10 px-5 py-2.5 text-sm font-semibold text-emerald-700 light:text-emerald-700 text-emerald-300 dark:text-emerald-300 transition hover:border-emerald-500/60 hover:bg-emerald-500/20 hover:text-emerald-800 light:hover:text-emerald-800 dark:hover:border-emerald-400/50 dark:hover:bg-emerald-500/15 dark:hover:text-emerald-200 lg:self-auto"
           >
             {SITE_CTAS.bookCall.label}
             <svg
@@ -95,13 +101,10 @@ export default function Footer() {
 
         <div className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <FooterColumn title="Architecture">
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-3 space-y-0.5">
               {ARCHITECTURE_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-slate-300 transition hover:text-emerald-400"
-                  >
+                  <Link href={link.href} className={footerLinkClass}>
                     {link.label}
                   </Link>
                 </li>
@@ -110,13 +113,10 @@ export default function Footer() {
           </FooterColumn>
 
           <FooterColumn title="Solutions">
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-3 space-y-0.5">
               {SOLUTIONS_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-slate-300 transition hover:text-emerald-400"
-                  >
+                  <Link href={link.href} className={footerLinkClass}>
                     {link.label}
                   </Link>
                 </li>
@@ -131,14 +131,16 @@ export default function Footer() {
                   key={item.label}
                   className="flex flex-col gap-1 text-sm sm:flex-row sm:items-center sm:justify-between sm:gap-3"
                 >
-                  <span className="inline-flex items-center gap-2 text-slate-300">
+                  <span
+                    className={`inline-flex items-center gap-2 font-medium text-slate-700 light:text-slate-700 text-slate-300 dark:text-slate-300`}
+                  >
                     <span
                       className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"
                       aria-hidden
                     />
                     {item.label}
                   </span>
-                  <span className="text-xs font-medium text-emerald-400/90">
+                  <span className="text-xs font-semibold text-emerald-700 light:text-emerald-700 text-emerald-400/90 dark:text-emerald-400/90">
                     {item.status}
                   </span>
                 </li>
@@ -147,11 +149,11 @@ export default function Footer() {
           </FooterColumn>
 
           <FooterColumn title="Direct Contact">
-            <ul className="mt-4 space-y-3 text-sm">
+            <ul className="mt-3 space-y-0.5 text-sm">
               <li>
                 <a
                   href={`mailto:${CONTACT_INFO.email}`}
-                  className="text-slate-300 transition hover:text-emerald-400"
+                  className={footerLinkClass}
                 >
                   {CONTACT_INFO.email}
                 </a>
@@ -160,19 +162,19 @@ export default function Footer() {
                 <li>
                   <a
                     href={CONTACT_INFO.phoneHref}
-                    className="text-slate-300 transition hover:text-emerald-400"
+                    className={footerLinkClass}
                   >
                     {CONTACT_INFO.phone}
                   </a>
                 </li>
               ) : null}
-              <li className="leading-relaxed text-slate-400">
+              <li className={`min-h-10 inline-flex items-center leading-relaxed ${footerMutedClass}`}>
                 Remote-first · Global delivery
               </li>
               <li>
                 <Link
                   href="/contact"
-                  className="font-medium text-emerald-400 transition hover:text-emerald-300"
+                  className="inline-flex min-h-10 items-center font-semibold text-emerald-700 light:text-emerald-700 text-emerald-400 dark:text-emerald-400 transition hover:text-emerald-800 light:hover:text-emerald-800 dark:hover:text-emerald-300"
                 >
                   Open project planner →
                 </Link>
@@ -181,7 +183,7 @@ export default function Footer() {
           </FooterColumn>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-slate-200/80 light:border-slate-200/80 border-white/10 dark:border-white/10 pt-6 text-xs text-slate-500 light:text-slate-500 text-slate-500 dark:text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>© {COPYRIGHT_YEAR} The Upward Scale. All rights reserved.</p>
           <p className="tracking-wide">
             Elite Digital Growth Systems · {CONTACT_INFO.timezoneLabel}

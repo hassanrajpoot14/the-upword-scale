@@ -37,7 +37,7 @@ export default function Header() {
     >
       <nav
         aria-label="Primary"
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+        className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8"
       >
         <div
           className={`flex w-full flex-nowrap items-center justify-between gap-2 transition-[height] sm:gap-3 ${

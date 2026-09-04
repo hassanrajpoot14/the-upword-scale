@@ -10,7 +10,7 @@ export default function BrandLogo({
     size === "lg"
       ? "text-2xl"
       : size === "header"
-        ? "text-lg sm:text-xl"
+        ? "text-base sm:text-xl"
         : "text-xl";
   const isDark = tone === "dark";
   const wordGap = size === "header" ? "ml-1 sm:ml-1.5" : "ml-1.5";
@@ -19,13 +19,13 @@ export default function BrandLogo({
     <Link
       href="/"
       onClick={onClick}
-      className={`group inline-flex max-w-full min-w-0 items-baseline select-none font-display tracking-tight ${textSize} ${className}`}
+      className={`group inline-flex max-w-full min-w-0 flex-wrap items-baseline select-none font-display tracking-tight ${textSize} ${className}`}
       aria-label="The Upward Scale — Home"
       suppressHydrationWarning
     >
       <span
         suppressHydrationWarning
-        className={`shrink-0 font-normal transition-colors ${
+        className={`font-normal transition-colors ${
           isDark
             ? "text-slate-100 group-hover:text-white"
             : "text-slate-900 group-hover:text-slate-700"
@@ -35,7 +35,7 @@ export default function BrandLogo({
       </span>
       <span
         suppressHydrationWarning
-        className={`${wordGap} shrink-0 font-bold transition-colors ${
+        className={`${wordGap} font-bold transition-colors ${
           isDark
             ? "text-slate-100 group-hover:text-white"
             : "text-slate-900 group-hover:text-slate-700"
@@ -45,7 +45,7 @@ export default function BrandLogo({
       </span>
       <span
         suppressHydrationWarning
-        className={`${wordGap} shrink-0 font-extrabold transition-colors ${
+        className={`${wordGap} font-extrabold transition-colors ${
           isDark
             ? "text-emerald-400 group-hover:text-emerald-300"
             : "text-emerald-600 group-hover:text-emerald-500"

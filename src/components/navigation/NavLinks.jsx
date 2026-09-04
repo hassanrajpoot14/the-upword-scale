@@ -48,13 +48,18 @@ export default function NavLinks({
         }
 
         return (
-          <li key={link.href} className="relative">
+          <li
+            key={link.href}
+            className={`relative ${servicesVariant === "inline" ? "w-full" : ""}`}
+          >
             <Link
               href={link.href}
               onClick={onLinkClick}
               aria-current={isActive ? "page" : undefined}
               suppressHydrationWarning
               className={`relative inline-flex items-center rounded-full px-3 py-2 text-sm font-medium transition-colors duration-300 ${
+                servicesVariant === "inline" ? "w-full" : ""
+              } ${
                 inverted
                   ? isActive
                     ? "text-emerald-400 hover:text-emerald-300"

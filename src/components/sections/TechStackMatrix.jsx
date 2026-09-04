@@ -117,7 +117,7 @@ function StackCard({ item, onOpen }) {
       <div className="relative z-10 flex h-full flex-col">
         <div className="flex items-start justify-between gap-3">
           <TechLogo id={item.id} />
-          <ChevronRight className="h-4 w-4 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-emerald-500 dark:text-slate-600" />
+          <ChevronRight className="h-4 w-4 shrink-0 text-slate-400 transition group-hover:translate-x-0.5 group-hover:text-emerald-500 dark:text-slate-500" />
         </div>
 
         <h3 className="mt-4 font-display text-base font-extrabold tracking-tight text-slate-900 dark:text-white">
